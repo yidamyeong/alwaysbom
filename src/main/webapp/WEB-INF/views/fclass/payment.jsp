@@ -243,7 +243,7 @@
                             <span>사업자증빙용</span>
                         </label>
                         <label>
-                            <input type="radio" name="cashReceipt" value="noApply">
+                            <input type="radio" name="cashReceipt" value="noApply" checked>
                             <span>미신청</span>
                         </label>
                     </div>
