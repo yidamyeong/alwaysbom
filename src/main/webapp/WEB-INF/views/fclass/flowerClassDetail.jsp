@@ -32,16 +32,15 @@
     function classReservation(form) {
         if(document.querySelector("#scheduleDate").value == null || document.querySelector("#scheduleDate").value == ""){
             alert("수강일을 선택해주세요");
-            form.preventDefault();
+            return;
         } else {
-            form.submit("/fclass/payment");
+            if (${member == null}) {
+                showLoginModal();
+            } else {
+                form.submit("/fclass/payment");
+            }
         }
-        if (${member.id == null}) {
-            alert("로그인이 필요한 페이지입니다.");
-            location.href="/login";
-        } else {
-            form.submit("/fclass/payment");
-        }
+
     }
 
     document.addEventListener("DOMContentLoaded", function () {
