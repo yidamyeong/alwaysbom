@@ -42,11 +42,11 @@
     <!-- 헤더 -->
     <div class="checkout_wrap">
         <div class="navi" tabindex="-1">
-            <ol class="process">
-                <li class="step"><span class="order"><b>1</b><span class="desc">편지 추가</span></span></li>
-                <li class="step current"><span class="order"><b>2</b><span class="desc">주소 입력</span></span></li>
-                <li class="step"><span class="order"><b>3</b><span class="desc">결제</span></span></li>
-            </ol>
+            <ul class="process">
+                <div class="step current"><span class="order"><b>1</b><span class="desc">편지 추가</span></span></div>
+                <div class="step"><span class="order"><b>2</b><span class="desc">주소 입력</span></span></div>
+                <div class="step"><span class="order"><b>3</b><span class="desc">결제</span></span></div>
+            </ul>
         </div>
         <form name="frm" method="post" action="/order/payment" onsubmit="return submitForm()">
             <div class="checkout_content">

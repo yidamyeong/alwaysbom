@@ -942,7 +942,7 @@
         // CartVo 에 있는 메소드 getOption()을 javascript 에서 구현 -> 옵션상품명 1 : 3개, 상품명2 : 1개, ... 이런식으로 출력되게
         let optionStr = "";
         for (let i = 0; i < choices.length; i++) {
-            optionStr += choices[i].productName + " : " + choices[i].quantity + "개"
+            optionStr += choices[i].productName + " : " + choices[i].quantity + "개, "
         }
         optionStr = optionStr.substring(0, optionStr.length - 2);
 

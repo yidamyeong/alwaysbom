@@ -32,7 +32,6 @@
             <mvc:mapping path="/order/**"/>
             <mvc:mapping path="/orders/**"/>
             <mvc:mapping path="/fclass/payment"/>
-            <mvc:mapping path="/fclass/payment"/>
             <mvc:mapping path="/myPage"/>
             <mvc:mapping path="/myPage_faq_main"/>
             <mvc:mapping path="/member_grade"/>
