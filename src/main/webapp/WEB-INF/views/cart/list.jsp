@@ -196,6 +196,7 @@
                         if (result) {
                             const cartItem = document.querySelector(".cart-item[data-cart-idx='" + idx + "']");
                             cartItem.remove();
+                            sumTotalPrice();
                         }
                     });
                 })
@@ -209,6 +210,7 @@
             for (let check of allCheck) {
                 check.checked = allBtn.checked;
             }
+            sumTotalPrice();
         }
 
         function checkAll() {
@@ -222,6 +224,18 @@
                 }
             }
             allBtn.checked = checked;
+            sumTotalPrice();
+        }
+
+        function sumTotalPrice() {
+            let sumTotalPrice = [...document.querySelectorAll("li[data-cart-idx]")]
+                .filter(el => el.querySelector("input[type=checkbox][name=idx]").checked)
+                .map(el => parseInt(el.querySelector("[data-cart-total-price]").dataset.cartTotalPrice))
+                .reduce((prev, curr) => prev + curr, 0);
+            console.log(sumTotalPrice);
+
+            let sumTotalPriceEl = document.querySelector("#sumTotalPrice");
+            sumTotalPriceEl.innerHTML = sumTotalPrice.toLocaleString("ko-KR") + "원";
         }
 
         function adjustQuantity(isUp, adjustBtn, index) {
@@ -270,13 +284,7 @@
             totalPriceEl.textContent = totalPrice.toLocaleString('ko-KR') + "원";
             totalPriceEl.setAttribute("data-cart-total-price", totalPrice.toString());
 
-            let sumTotalPrice = [...document.querySelectorAll("[data-cart-total-price]")]
-                .map(el => parseInt(el.getAttribute("data-cart-total-price")))
-                .reduce((prev, curr) => prev + curr, 0);
-            console.log(sumTotalPrice);
-
-            let sumTotalPriceEl = document.querySelector("#sumTotalPrice");
-            sumTotalPriceEl.innerHTML = sumTotalPrice.toLocaleString("ko-KR") + "원";
+            sumTotalPrice();
 
             quantityEl.textContent = quantity;
 

@@ -104,7 +104,7 @@
 
         <!-- 수강료 -->
         <div class="col-3 d-flex align-items-center justify-content-end">
-            <span class="text-secondary"><fmt:formatNumber value="${fclassVo.price}" pattern="#,###"/> 원</span>
+            <span class="text-secondary"><fmt:formatNumber value="${fclassVo.finalPrice}" pattern="#,###"/> 원</span>
         </div>
     </div>
 

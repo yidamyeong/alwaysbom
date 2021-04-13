@@ -24,6 +24,11 @@
             padding-right: 120px;
         }
 
+        .accoque:hover {
+            background-color: #eaeaea;
+            cursor: pointer;
+        }
+
         .nopadding {
             padding: 0px;
         }
