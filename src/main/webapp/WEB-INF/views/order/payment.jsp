@@ -354,7 +354,7 @@
                                         <label class="form-check-label" for="inlineRadio2">사업자증빙용</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" checked>
                                         <label class="form-check-label" for="inlineRadio3">미신청</label>
                                     </div>
                                 </div>
