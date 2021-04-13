@@ -28,6 +28,9 @@
         <span class="fs-3 fw-bold text-secondary">404 Error</span>
         <span class="fs-3 fw-bold text-secondary">존재하지 않는 페이지입니다.</span>
     </div>
+    <div>
+        ${exception.message}
+    </div>
     <div class="d-flex flex-column align-items-center text-secondary">
         <span class="fs-5">고객센터 1161-1031</span>
         <span>(운영시간: 10:00 ~ 13:00, 14:00 ~ 18:00</span>
