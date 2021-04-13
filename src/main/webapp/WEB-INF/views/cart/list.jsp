@@ -196,6 +196,7 @@
                         if (result) {
                             const cartItem = document.querySelector(".cart-item[data-cart-idx='" + idx + "']");
                             cartItem.remove();
+                            sumTotalPrice();
                         }
                     });
                 })
