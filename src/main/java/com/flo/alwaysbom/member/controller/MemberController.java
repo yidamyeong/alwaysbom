@@ -91,7 +91,7 @@ public class MemberController {
     @RequestMapping("/logout")
     public String logout(SessionStatus sessionStatus) {
         sessionStatus.setComplete();
-        return "member/login";
+        return "redirect:/";
     }
 
     //아이디 찾기 form
