@@ -392,7 +392,7 @@
                     <!-- 리뷰제목 -->
                     <div class="col-6">
                         <label for="reviewTitle" class="form-label">리뷰 제목</label>
-                        <input type="text" class="form-control" id="reviewTitle" placeholder="리뷰제목을 작성해주세요" required>
+                        <input type="text" class="form-control" id="reviewTitle" placeholder="리뷰제목을 작성해주세요" required autocomplete="off">
                     </div>
                     <!-- 리뷰별점 -->
                     <div class="d-flex btn-group text-warning fs-2 ps-3 pb-1" role="group">

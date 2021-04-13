@@ -5,8 +5,8 @@
 <head>
     <title>정기구독 상품 조회</title>
     <%@ include file="../main/b_import.jspf"%>
-    <link rel="stylesheet" href="../../../static/css/item/b_addForm.css">
-    <link rel="stylesheet" href="../../../static/css/item/list.css">
+    <link rel="stylesheet" href="/static/css/item/b_addForm.css">
+    <link rel="stylesheet" href="/static/css/item/list.css">
 </head>
 <body>
 <%@ include file="../main/b_header.jspf"%>

@@ -18,7 +18,7 @@
                     전화번호를 입력해주세요.
                 </p>
                 <div class="row">
-                    <input type="text" id="phone" class="ipt mb-3 col-12" name="phone" placeholder="예시 : 010-1234-5678" value>
+                    <input type="text" id="phone" class="ipt mb-3 col-12" name="phone" placeholder="예시 : 010-1234-5678" value autocomplete="off">
                 </div>
             </div>
                 <button type="submit" class="login">확인</button>

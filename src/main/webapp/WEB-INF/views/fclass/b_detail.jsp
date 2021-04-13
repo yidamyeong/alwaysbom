@@ -53,27 +53,27 @@
 
             <div class="form-floating mb-4">
                 <input type="text" name="name" class="form-control" id="name" placeholder="name"
-                       value="${classInfo.name}">
+                       value="${classInfo.name}" autocomplete="off">
                 <label for="name">class name</label>
             </div>
             <div class="form-floating mb-4">
                 <input type="text" name="subheader" class="form-control" id="subheader" placeholder="subheader"
-                       value="${classInfo.subheader}">
+                       value="${classInfo.subheader}" autocomplete="off">
                 <label for="subheader">class subheader</label>
             </div>
             <div class="form-floating mb-4">
                 <input type="text" name="price" class="form-control" id="price" placeholder="price"
-                       value="${classInfo.price}">
+                       value="${classInfo.price}" autocomplete="off">
                 <label for="price">price</label>
             </div>
             <div class="form-floating mb-4">
                 <input type="text" name="discountRate" class="form-control" id="discountRate"
-                       placeholder="discountRate" value="${classInfo.discountRate}">
+                       placeholder="discountRate" value="${classInfo.discountRate}" autocomplete="off">
                 <label for="discountRate">discountRate</label>
             </div>
             <div class="form-floating">
                 <input type="text" name="count" class="form-control" id="count"
-                       placeholder="count" value="${classInfo.count}">
+                       placeholder="count" value="${classInfo.count}" autocomplete="off">
                 <label for="count">class count</label>
             </div>
         </div>

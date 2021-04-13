@@ -372,7 +372,7 @@
                                             <!-- 리뷰 제목-->
                                             <div class="mb-3">
                                                 <label for="review-title" class="col-form-label">리뷰 제목</label>
-                                                <input type="text" class="form-control" id="review-title">
+                                                <input type="text" class="form-control" id="review-title" autocomplete="off">
                                             </div>
                                             <!-- 사진 첨부 -->
                                             <div class="mb-3">

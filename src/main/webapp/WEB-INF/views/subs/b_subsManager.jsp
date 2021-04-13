@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>꽃 정기구독 관리 인덱스</title>
     <%@ include file="../main/b_import.jspf"%>
-    <link rel="stylesheet" href="../../../static/css/item/b_itemManager.css">
+    <link rel="stylesheet" href="/static/css/item/b_itemManager.css">
 </head>
 <body>
     <%@ include file="../main/b_header.jspf"%>

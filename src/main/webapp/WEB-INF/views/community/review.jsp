@@ -158,7 +158,7 @@
             <ul>
                 <li id='liSearchOption' class="col list-group list-group-horizontal nav-item pt-5">
                     <div class="row mx-3">
-                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search" autocomplete="off">
                     </div>
                     <div class="">
                         <button class="btn btn-outline-dark" type="button" onclick="goSearch(this.form)">검색</button>

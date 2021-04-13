@@ -29,7 +29,7 @@
                                 <label for="name" class="col-form-label">제목</label>
                             </div>
                             <div class="mb-3">
-                                <input type="text" id="name" name="name" class="form-control">
+                                <input type="text" id="name" name="name" class="form-control" autocomplete="off">
                             </div>
                             <div class="col-auto">
                                 <label for="content" class="col-form-label">내용</label>

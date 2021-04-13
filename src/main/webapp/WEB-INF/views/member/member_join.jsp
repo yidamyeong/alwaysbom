@@ -123,28 +123,28 @@
     <label class="my-2">이메일 (아이디)</label>
     <div class="d-flex flex-column mb-4">
         <!--<input type="text" id="id" name="id" value="${kakao_id}" class="col-12 mr-3" maxlength="255" placeholder="6~30자 이메일 형식(특수문자 사용불가)" pattern="^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-z]{2,3}$" />-->
-        <input type="text" id="id" name="id" value="${kakao_id}" class="col-12 mr-3" maxlength="255" placeholder="6~30자 이메일 형식(특수문자 사용불가)"/>
+        <input type="text" id="id" name="id" value="${kakao_id}" class="col-12 mr-3" maxlength="255" placeholder="6~30자 이메일 형식(특수문자 사용불가)" autocomplete="off"/>
         <div class="hidden warning">※ 이미 사용중인 아이디입니다.</div>
     </div>
 
     <label class="my-2">비밀번호</label>
-    <input type="password" name="pw" id="pw" class="col-12 mb-4" maxlength="255" placeholder="영문자+숫자+특수문자 조합으로 8~25자리"/>
+    <input type="password" name="pw" id="pw" class="col-12 mb-4" maxlength="255" placeholder="영문자+숫자+특수문자 조합으로 8~25자리" autocomplete="off"/>
 
     <label class="my-2">비밀번호 확인</label>
     <input type="password" name="pwCfm" class="col-12 mb-4" maxlength="255" placeholder="비밀번호를 동일하게 한 번 더 입력해주세요."
            autocomplete="off"/>
 
     <label class="my-2">이름</label>
-    <input type="text" name="name" value="${kakao_name}" class="col-12 mb-4" maxlength="255" placeholder="이름을 입력해주세요." />
+    <input type="text" name="name" value="${kakao_name}" class="col-12 mb-4" maxlength="255" placeholder="이름을 입력해주세요."  autocomplete="off"/>
 
     <label class="my-2">휴대폰번호 입력</label>
     <div class="d-flex flex-column mb-4">
-        <input type="text" name="phone" id="phone" class="col-12 mb-4" maxlength="15" minlength="9" placeholder="예) 010-1234-5678" title="전화번호를 입력하세요"/>
+        <input type="text" name="phone" id="phone" class="col-12 mb-4" maxlength="15" minlength="9" placeholder="예) 010-1234-5678" title="전화번호를 입력하세요" autocomplete="off"/>
         <div class="hidden warning">※ 사용중인 휴대폰 번호가 있습니다.</div>
     </div>
 
     <label class="my-2">생년월일</label>
-    <input type="date" name="birth" id="birth" class="col-12 mb-4" placeholder="달력에서 선택해주세요."/>
+    <input type="date" name="birth" id="birth" class="col-12 mb-4" placeholder="달력에서 선택해주세요." autocomplete="off"/>
 
     <label class="my-2">성별</label>
     <div class="gap-2 d-flex col-12 btn-group" role="group">

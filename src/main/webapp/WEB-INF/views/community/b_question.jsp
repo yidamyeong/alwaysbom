@@ -174,14 +174,14 @@
                                             <div class="mb-3">
                                                 <label for="emTitle" class="form-label">제목</label>
                                                 <input id="emtitle" type="text" name="answerTitle" class="form-control mb-1" placeholder="제목"
-                                                style="width: 500px;">
+                                                style="width: 500px;" autocomplete="off">
                                             </div>
                                             </c:if>
                                             <c:if test="${not empty quList.answer}">
                                             <div class="mb-3">
                                                 <label for="title" class="form-label">제목</label>
                                                 <input id="title" type="text" name="answerTitle" class="form-control mb-1" placeholder="제목"
-                                                value="${quList.answerTitle}" style="width: 500px;">
+                                                value="${quList.answerTitle}" style="width: 500px;" autocomplete="off">
                                             </div>
                                             </c:if>
                                         </div>

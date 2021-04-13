@@ -83,7 +83,7 @@
             <div class="md-3">
                 <label for="name" class="form-label">제목</label>
                 <input type="text" class="form-control" name="name" id="name" value="${reviewDto.name}"
-                       placeholder="제목을 적어주세요">
+                       placeholder="제목을 적어주세요" autocomplete="off">
             </div>
        <%--     <div class="md-3">
                 <label for="file1" class="form-label">이미지</label>

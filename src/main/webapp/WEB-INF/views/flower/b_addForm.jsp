@@ -108,11 +108,11 @@
             <div class="col-md">
                 <div class="form-floating my-2">
                     <c:if test="${empty flowerVo}">
-                    <input type="text" name="name" class="form-control" id="itemName" placeholder="상품명 입력">
+                    <input type="text" name="name" class="form-control" id="itemName" placeholder="상품명 입력" autocomplete="off">
                     </c:if>
                     <c:if test="${not empty flowerVo}">
                     <input type="text" name="name" class="form-control" id="itemName" placeholder="상품명 입력"
-                           value="${flowerVo.name}">
+                           value="${flowerVo.name}" autocomplete="off">
                     </c:if>
                     <label for="itemName">상품명 (한글 50자 미만)</label>
                 </div>
@@ -121,11 +121,11 @@
             <div class="col-md">
                 <div class="form-floating my-2">
                     <c:if test="${empty flowerVo}">
-                    <input type="text" name="subheader" class="form-control" id="itemSubheader" placeholder="한줄 설명">
+                    <input type="text" name="subheader" class="form-control" id="itemSubheader" placeholder="한줄 설명" autocomplete="off">
                     </c:if>
                     <c:if test="${not empty flowerVo}">
                     <input type="text" name="subheader" class="form-control" id="itemSubheader" placeholder="한줄 설명"
-                           value="${flowerVo.subheader}">
+                           value="${flowerVo.subheader}" autocomplete="off">
                     </c:if>
                     <label for="itemSubheader">한줄 설명 (한글 100자 미만)</label>
                 </div>
@@ -186,11 +186,11 @@
                 <div class="form-floating my-2">
                     <c:if test="${empty flowerVo}">
                     <input type="text" name="price" class="form-control text-end"
-                           id="itemPrice" placeholder="가격" onchange="calculate()">
+                           id="itemPrice" placeholder="가격" onchange="calculate()" autocomplete="off">
                     </c:if>
                     <c:if test="${not empty flowerVo}">
                     <input type="text" name="price" class="form-control text-end" value="${flowerVo.price}"
-                           id="itemPrice" placeholder="가격" onchange="calculate()">
+                           id="itemPrice" placeholder="가격" onchange="calculate()" autocomplete="off">
                     </c:if>
                     <label for="itemPrice">상품 가격</label>
                 </div>
@@ -243,17 +243,17 @@
             <div class="col-md-4">
                 <div class="form-floating my-2">
                     <c:if test="${empty flowerVo}">
-                    <input type="number" max="50" class="form-control" name="discountRate"
+                    <input type="number" max="50" class="form-control" name="discountRate" autocomplete="off"
                            id="discountRate" placeholder="할인율" onchange="calculate()" disabled>
                     </c:if>
                     <c:if test="${not empty flowerVo}">
                         <c:if test="${not empty flowerVo.discountRate && flowerVo.discountRate > 0}">
                         <input type="number" max="50" class="form-control" name="discountRate" placeholder="할인율"
-                               value="${flowerVo.discountRate}" id="discountRate" onchange="calculate()">
+                               value="${flowerVo.discountRate}" id="discountRate" onchange="calculate()" autocomplete="off">
                         </c:if>
                         <c:if test="${empty flowerVo.discountRate || flowerVo.discountRate <= 0}">
                         <input type="number" max="50" class="form-control" name="discountRate" placeholder="할인율"
-                               id="discountRate" onchange="calculate()" disabled>
+                               id="discountRate" onchange="calculate()" disabled autocomplete="off">
                         </c:if>
                     </c:if>
                     <label for="discountRate">할인율 (숫자만 입력)</label>

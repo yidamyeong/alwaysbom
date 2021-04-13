@@ -33,7 +33,7 @@
                 </div>
                 <!-- 클래스명으로 검색하기 -->
                 <div class="input-group mb-3" style="width: 300px;">
-                    <input type="text" class="form-control className" name="className" id="className" onkeyup="if(event.keyCode === 13) searchByOption();" onfocus="this.value='';">
+                    <input type="text" class="form-control className" name="className" id="className" onkeyup="if(event.keyCode === 13) searchByOption();" onfocus="this.value='';" autocomplete="off">
                     <button class="btn btn-outline-secondary" type="button" onclick="searchByOption()">
                         <span>검색</span>
                     </button>

@@ -22,27 +22,27 @@
                             <fieldset>
                                 <p>
                                     <label class="txt">이름</label>
-                                    <input type="text" name="name" value="${sessionScope.member.name}" maxlength="255" class="form-control form-control-sm" required id="id_name" />
+                                    <input type="text" name="name" value="${sessionScope.member.name}" maxlength="255" class="form-control form-control-sm" required id="id_name" autocomplete="off" />
                                 </p>
                                 <p>
                                     <label class="txt">비밀번호</label>
-                                    <input type="password" name="pw" value="${sessionScope.member.pw}" maxlength="255" class="form-control form-control-sm" required id="id_pw" />
+                                    <input type="password" name="pw" value="${sessionScope.member.pw}" maxlength="255" class="form-control form-control-sm" required id="id_pw" autocomplete="off" />
                                 </p>
                                 <p>
                                     <label class="txt">비밀번호 확인</label>
-                                    <input type="password" name="pwCfm" maxlength="255" class="form-control form-control-sm" required id="id_pwCfm"/>
+                                    <input type="password" name="pwCfm" maxlength="255" class="form-control form-control-sm" required id="id_pwCfm" autocomplete="off"/>
                                 </p>
                                 <p>
                                     <label class="txt">아이디(이메일)</label>
-                                    <input type="text" name="id" value="${sessionScope.member.id}" readonly="readonly" class="form-control form-control-sm" maxlength="255"/>
+                                    <input type="text" name="id" value="${sessionScope.member.id}" readonly="readonly" class="form-control form-control-sm" maxlength="255" autocomplete="off"/>
                                 </p>
                                 <p>
                                     <label class="txt">휴대폰 번호</label>
-                                    <input type="text" name="phone" id="phone" value="${sessionScope.member.phone}" class="form-control form-control-sm" maxlength="15" minlength="9"/>
+                                    <input type="text" name="phone" id="phone" value="${sessionScope.member.phone}" class="form-control form-control-sm" maxlength="15" minlength="9" autocomplete="off"/>
                                 </p>
                                 <p>
                                     <label class="txt">생년월일</label>
-                                    <input type="date" name="birth" id="birth" value="${sessionScope.member.birth}" class="form-control form-control-sm" />
+                                    <input type="date" name="birth" id="birth" value="${sessionScope.member.birth}" class="form-control form-control-sm" autocomplete="off" />
                                 </p>
                                     <label class="txt">성별</label>
                                     <div class="d-grid gap-2 d-flex col-12 gender-area">

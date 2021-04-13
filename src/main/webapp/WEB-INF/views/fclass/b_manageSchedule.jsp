@@ -29,7 +29,7 @@
         <div class="w-100 d-flex flex-column align-items-center">
             <div>
             <label class="form-label">
-                <input type="text" placeholder="조회하실 클래스의 날짜를 선택해주세요" id="dataForm" class="bgColor select-datepicker form-floating p-4" onclick="checkValidDate()" required="required"/>
+                <input type="text" placeholder="조회하실 클래스의 날짜를 선택해주세요" id="dataForm" class="bgColor select-datepicker form-floating p-4" onclick="checkValidDate()" required="required" autocomplete="off"/>
             </label>
             <button type="button" class="btn btn-dark" id="searchBtn" onclick="searchSchedule()">검색</button>
             </div>
@@ -47,7 +47,7 @@
             <div><input type="text" placeholder="등록할 수강일을 선택해주세요" id="classDate" class="bgColor register-datepicker form-floating p-2 mb-2 dataForm2" required="required" aria-label="수강일"/></div>
             <div class="mb-2"><input type="time" id="startTime" class="bgColor dataForm2 form-floating p-2" placeholder="시작시간" value="10:00" required="required" aria-label="시작시간"/></div>
             <div class="mb-2"><input type="time" id="endTime" class="bgColor dataForm2 form-floating p-2" placeholder="종료시간" value="20:00" required="required" aria-label="종료시간"/></div>
-            <div class="mb-2"><input type="text" id="capacity" class="bgColor dataForm2 form-floating p-2" placeholder="수강정원" pattern="[0-9]+" onkeyup="this.reportValidity()" required="required" aria-label="수강정원"/></div>
+            <div class="mb-2"><input type="text" id="capacity" class="bgColor dataForm2 form-floating p-2" placeholder="수강정원" pattern="[0-9]+" onkeyup="this.reportValidity()" required="required" aria-label="수강정원" autocomplete="off"/></div>
             <div class="d-flex justify-content-between pb-5">
                 <button type="button" class="btn btn-dark w-100 m-2 px-5" onclick="addSchedule()">추가</button>
             </div>
@@ -93,7 +93,7 @@
                     <input type="time" placeholder="종료시간" class="dataForm2 form-floating p-2" name="endTime" required="required" aria-label="종료시간"/>
                 </div>
                 <div class="mb-2">
-                    <input type="text" placeholder="수강정원" class="dataForm2 form-floating p-2" name="totalCount" pattern="[0-9]+" onkeyup="this.reportValidity()" required="required" aria-label="수강정원"/>
+                    <input type="text" placeholder="수강정원" class="dataForm2 form-floating p-2" name="totalCount" pattern="[0-9]+" onkeyup="this.reportValidity()" required="required" aria-label="수강정원" autocomplete="off"/>
                 </div>
             </div>
             <div class="modal-footer">

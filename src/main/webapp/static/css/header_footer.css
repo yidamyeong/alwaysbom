@@ -78,6 +78,9 @@ header {
     width: auto;
     height: 27px;
 }
+.h-menu-svg:hover {
+    cursor: pointer;
+}
 .under-bar {
     border-top: 4px solid #ffc107;
     position: absolute;

@@ -32,25 +32,25 @@
                     </c:forEach>
 
                 <div class="form-floating mb-4 text-secondary">
-                    <input type="text" name="name" class="form-control text-secondary" id="name" placeholder="name" required>
+                    <input type="text" name="name" class="form-control text-secondary" id="name" placeholder="name" required autocomplete="off">
                     <label for="name">class name</label>
                 </div>
                 <div class="form-floating mb-4 text-secondary">
-                    <input type="text" name="subheader" class="form-control text-secondary" id="subheader" placeholder="subheader" required>
+                    <input type="text" name="subheader" class="form-control text-secondary" id="subheader" placeholder="subheader" required autocomplete="off">
                     <label for="subheader">subHeader</label>
                 </div>
                 <div class="form-floating mb-4 text-secondary">
-                    <input type="text" name="price" class="form-control text-secondary" id="price" placeholder="price" pattern="^[0-9]+$" required>
+                    <input type="text" name="price" class="form-control text-secondary" id="price" placeholder="price" pattern="^[0-9]+$" required autocomplete="off">
                     <label for="price">price</label>
                 </div>
                 <div class="form-floating mb-4 text-secondary">
                     <input type="text" name="discountRate" class="form-control text-secondary" pattern="^[0-9]+$" id="discountRate"
-                           placeholder="discountRate" required>
+                           placeholder="discountRate" required autocomplete="off">
                     <label for="discountRate">discount rate</label>
                 </div>
                 <div class="form-floating text-secondary">
                     <input type="text" name="count" class="form-control text-secondary" id="count" pattern="^[0-9]+$"
-                           placeholder="count" required>
+                           placeholder="count" required autocomplete="off">
                     <label for="count">count</label>
                 </div>
             </div>

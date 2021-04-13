@@ -108,11 +108,11 @@
             <div class="col-md">
                 <div class="form-floating my-2">
                     <c:if test="${empty productVo}">
-                    <input type="text" name="name" class="form-control" id="itemName" placeholder="상품명 입력">
+                    <input type="text" name="name" class="form-control" id="itemName" placeholder="상품명 입력" autocomplete="off">
                     </c:if>
                     <c:if test="${not empty productVo}">
                     <input type="text" name="name" class="form-control" id="itemName" placeholder="상품명 입력"
-                           value="${productVo.name}">
+                           value="${productVo.name}" autocomplete="off">
                     </c:if>
                     <label for="itemName">상품명 (한글 50자 미만)</label>
                 </div>
@@ -121,11 +121,11 @@
             <div class="col-md">
                 <div class="form-floating my-2">
                     <c:if test="${empty productVo}">
-                    <input type="text" name="subheader" class="form-control" id="itemSubheader" placeholder="한줄 설명">
+                    <input type="text" name="subheader" class="form-control" id="itemSubheader" placeholder="한줄 설명" autocomplete="off">
                     </c:if>
                     <c:if test="${not empty productVo}">
                     <input type="text" name="subheader" class="form-control" id="itemSubheader" placeholder="한줄 설명"
-                           value="${productVo.subheader}">
+                           value="${productVo.subheader}" autocomplete="off">
                     </c:if>
                     <label for="itemSubheader">한줄 설명 (한글 100자 미만)</label>
                 </div>
@@ -240,7 +240,7 @@
                     </c:if>
                     <c:if test="${not empty productVo}">
                     <input type="text" name="price" class="form-control text-end" value="${productVo.price}"
-                           id="itemPrice" placeholder="가격" onchange="calculate()">
+                           id="itemPrice" placeholder="가격" onchange="calculate()" autocomplete="off">
                     </c:if>
                     <label for="itemPrice">상품 가격</label>
                 </div>
@@ -274,16 +274,16 @@
                 <div class="form-floating my-2">
                     <c:if test="${empty productVo}">
                     <input type="number" max="50" class="form-control" name="discountRate"
-                           id="discountRate" placeholder="할인율" onchange="calculate()" disabled>
+                           id="discountRate" placeholder="할인율" onchange="calculate()" disabled autocomplete="off">
                     </c:if>
                     <c:if test="${not empty productVo}">
                         <c:if test="${not empty productVo.discountRate && productVo.discountRate > 0}">
                         <input type="number" max="50" class="form-control" name="discountRate" placeholder="할인율"
-                               value="${productVo.discountRate}" id="discountRate" onchange="calculate()">
+                               value="${productVo.discountRate}" id="discountRate" onchange="calculate()" autocomplete="off">
                         </c:if>
                         <c:if test="${empty productVo.discountRate || productVo.discountRate <= 0}">
                         <input type="number" max="50" class="form-control" name="discountRate"
-                               id="discountRate" placeholder="할인율" onchange="calculate()" disabled>
+                               id="discountRate" placeholder="할인율" onchange="calculate()" disabled autocomplete="off">
                         </c:if>
                     </c:if>
                     <label for="discountRate">할인율 (숫자만 입력)</label>

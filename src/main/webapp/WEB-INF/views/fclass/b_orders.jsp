@@ -31,7 +31,7 @@
             <div class="input-group">
                 <input id="memberId" type="text" class="form-control"
                        onkeypress="if(event.keyCode === 13)searchBySearchOption()"
-                       placeholder="회원 아이디로 검색">
+                       placeholder="회원 아이디로 검색" autocomplete="off">
                 <button class="btn btn-outline-secondary" type="button"
                         onclick="searchBySearchOption()">검색
                 </button>
