@@ -19,6 +19,7 @@
 
             if (document.frm.payType.value === "간편결제") {
                 alert("간편결제" + "<c:out value='${orderPrice.finalPrice}'/>" + "원" );
+                alert("포트폴리오 용 사이트이니 결제하지 마십시오.");
 
                 IMP.init('imp49204009');
 
@@ -28,7 +29,7 @@
                     merchant_uid: "merchant_" + new Date().getTime(),
                     name: "(주)Alwaysbom 결제",
                     //amount: "<c:out value='${orderPrice.finalPrice}'/>",
-                    amount: 1000,
+                    amount: 1,
                     buyer_email: "<c:out value='${sessionScope.member.id}'/>",
                     buyer_name: "<c:out value='${sessionScope.member.name}'/>",
                     buyer_tel: "<c:out value='${sessionScope.member.phone}'/>"

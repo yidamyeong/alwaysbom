@@ -9,11 +9,18 @@
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
 <script>
     function joinform_check() {
+        const joinPassword = document.querySelector("#joinPassword");
         var id = document.getElementById("id");
         var pw = document.getElementById("pw");
         var pwCfm = document.getElementById("pwCfm");
         var name = document.getElementById("name");
         var phone = document.getElementById("phone");
+
+        if(!joinPassword.value) {
+            alert("가입 승인비밀번호를 입력해주세요");
+            joinPassword.focus();
+            return false;
+        }
 
         if(!document.join_form.id.value) {
             alert("아이디를 입력해주세요.");
@@ -118,6 +125,12 @@
 <form role="form" action="/member_join" method="post" name="join_form" onsubmit="return joinform_check()">
     <div class="join-header py-3 mb-4">
         <h5 class="page_title text-center p-2 mt-5 text-secondary m-0">회원가입</h5>
+    </div>
+
+    <label class="my-2">가입 비밀번호</label>
+    <div class="d-flex flex-column mb-4">
+        <input type="password" id="joinPassword" name="joinPassword" value="" class="col-12 mb-4"
+               title="테스트용 가입승인 비밀번호를 입력해주세요" maxlength="255" placeholder="가입 비밀번호 입력" autocomplete="off"/>
     </div>
 
     <label class="my-2">이메일 (아이디)</label>

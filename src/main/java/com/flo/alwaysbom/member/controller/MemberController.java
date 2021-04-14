@@ -41,9 +41,11 @@ public class MemberController {
 
     //회원가입 화면 요청(post)
     @PostMapping("/member_join")
-    public String member_join(MemberVO memberVO) {
+    public String member_join(MemberVO memberVO, String joinPassword) {
         //System.out.println("memberVO = " + memberVO);
-        memberService.insertMember(memberVO);
+        if ("tosmfqha1!".equals(joinPassword)) {
+            memberService.insertMember(memberVO);
+        }
         return "member/login";
     }
 

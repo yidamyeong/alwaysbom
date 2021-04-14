@@ -54,7 +54,7 @@
             fetch("/login", option).then(response => {
                 response.json().then(result => {
                     if (result) {
-                        alert("로그인 되었습니다");
+                        alert("로그인 되었습니다\n이 사이트는 포트폴리오 용 사이트입니다.");
                         location.href = "/";
                     } else {
                         alert("아이디 또는 비밀번호가 잘못되었습니다");
