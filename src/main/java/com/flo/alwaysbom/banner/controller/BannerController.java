@@ -2,7 +2,7 @@ package com.flo.alwaysbom.banner.controller;
 
 import com.flo.alwaysbom.banner.service.BannerService;
 import com.flo.alwaysbom.banner.vo.BannerVo;
-import com.flo.alwaysbom.util.CloudFileHandler;
+import com.flo.alwaysbom.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +18,7 @@ import java.io.IOException;
 public class BannerController {
 
     private final BannerService bannerService;
-    private final CloudFileHandler fileHandler;
+    private final FileHandler fileHandler;
 
     /* 배너 등록/수정으로 이동 */
     @GetMapping("/admin/banner/{category}")

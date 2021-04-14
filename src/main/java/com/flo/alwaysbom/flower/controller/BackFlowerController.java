@@ -3,6 +3,7 @@ package com.flo.alwaysbom.flower.controller;
 import com.flo.alwaysbom.flower.service.FlowerService;
 import com.flo.alwaysbom.flower.vo.FlowerVo;
 import com.flo.alwaysbom.util.CloudFileHandler;
+import com.flo.alwaysbom.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,7 @@ import java.util.List;
 public class BackFlowerController {
 
     private final FlowerService flowerService;
-    private final CloudFileHandler fileHandler;
+    private final FileHandler fileHandler;
 
     /* 꽃다발 관리 인덱스로 이동 */
     @GetMapping("/admin/flower")

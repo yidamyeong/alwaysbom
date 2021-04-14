@@ -37,9 +37,15 @@ public class LocalFileHandler implements FileHandler {
                 file.transferTo(realFile);
 
                 //기존 파일이 있다면 지우겠다
-                deleteFile(dbName);
+                if (dbName != null) {
+                    if (deleteFile(dbName)) {
+                        System.out.println(dbName + "\n기존 파일을 삭제하였습니다");
+                    } else {
+                        System.out.println(dbName + "\n기존 파일 삭제 실패했습니다");
+                    }
+                }
 
-                String finalPath = new File(new File("/static/upload/", uploadFolder), fileName).getPath().substring(1);
+                String finalPath = "/" + new File(new File("/static/upload/", uploadFolder), fileName).getPath().substring(1);
                 return finalPath.replaceAll(Matcher.quoteReplacement(File.separator), "/");
             } else {
                 System.out.println(".이 없거나 확장자의 길이가 1보다 작습니다");
@@ -51,7 +57,18 @@ public class LocalFileHandler implements FileHandler {
     }
 
     @Override
-    public boolean deleteFile(String path) throws IOException {
-        return Files.deleteIfExists(Paths.get(path));
+    public boolean deleteFile(String path) {
+        try {
+            if (path != null) {
+                String folderPath = context.getRealPath("");
+                File realFile = new File(folderPath, path);
+                return Files.deleteIfExists(realFile.toPath());
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

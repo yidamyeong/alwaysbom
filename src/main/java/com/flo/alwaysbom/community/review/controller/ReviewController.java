@@ -7,6 +7,7 @@ import com.flo.alwaysbom.fclass.vo.OclassVo;
 import com.flo.alwaysbom.member.vo.MemberVO;
 import com.flo.alwaysbom.order.vo.OrdersVo;
 import com.flo.alwaysbom.util.CloudFileHandler;
+import com.flo.alwaysbom.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +26,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService service;
-    private final CloudFileHandler fileHandler;
+    private final FileHandler fileHandler;
 
     @GetMapping("/community/goReview")
     public String goReview(@SessionAttribute(required = false) MemberVO member, Model model){

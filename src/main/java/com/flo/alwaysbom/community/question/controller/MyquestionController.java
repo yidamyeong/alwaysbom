@@ -4,6 +4,7 @@ import com.flo.alwaysbom.community.question.service.QuestionServise;
 import com.flo.alwaysbom.community.question.vo.QuestionVo;
 import com.flo.alwaysbom.member.vo.MemberVO;
 import com.flo.alwaysbom.util.CloudFileHandler;
+import com.flo.alwaysbom.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +19,7 @@ import java.io.IOException;
 @Controller
 @RequiredArgsConstructor
 public class MyquestionController {
-    private final CloudFileHandler fileHandler;
+    private final FileHandler fileHandler;
     private final QuestionServise servise;
     // 여기부터는 로그인 회원 정보 받기
     @GetMapping("/question/create")
