@@ -45,7 +45,6 @@ public class BackFclassController {
         List<FclassVo> classList = fclassService.findAll();
         List<BranchVo> branchList = branchService.findAll();
 
-        System.out.println("classList = " + classList);
         model.addAttribute("classList", classList);
         model.addAttribute("branchList", branchList);
 
@@ -69,10 +68,16 @@ public class BackFclassController {
 
     @PostMapping("/admin/fclass/updateClass")
     public String updateClass(FclassVo vo, Integer[] branches, List<MultipartFile> file) throws IOException {
+        String oldImg = vo.getImage1();
         vo.setImage1(fileHandler.uploadFile(file.get(0), vo.getImage1(), "/fclass/class"));
         vo.setImage2(fileHandler.uploadFile(file.get(1), vo.getImage2(), "/fclass/class"));
         vo.setImage3(fileHandler.uploadFile(file.get(2), vo.getImage3(), "/fclass/class"));
+        String newImg = vo.getImage1();
+        int classIdx = vo.getIdx();
         fclassService.updateFclass(vo, branches);
+        if (!oldImg.equals(newImg)) {
+            oclassService.updateClassImg(newImg, classIdx);
+        }
 
         return "redirect:/admin/fclass/b_classList";
     }
@@ -184,8 +189,6 @@ public class BackFclassController {
     @PostMapping("admin/fclass/api/updateBranch")
     @ResponseBody
     public BranchVo updateBranch(BranchVo vo, MultipartFile file) throws IOException {
-        System.out.println("vo = " + vo);
-        System.out.println("file = " + file);
         vo.setMapImage(fileHandler.uploadFile(file, vo.getMapImage(), "fclass/branch"));
         branchService.updateBranch(vo);
         return vo;
@@ -198,17 +201,9 @@ public class BackFclassController {
         return scheduleService.addSchedule(scheduleVo);
     }
 
-    @PostMapping("/admin/fclass/api/searchSchedule")
-    @ResponseBody
-    public List<ScheduleVo> searchSchedule(@RequestBody ScheduleVo vo) {
-        System.out.println("searchSchedule : vo = " + vo);
-        return scheduleService.searchSchedule(vo);
-    }
-
     @PostMapping("/admin/fclass/api/deleteScheduleByIdx")
     @ResponseBody
     public boolean deleteSchedule(@RequestBody List<Integer> idx) {
-        System.out.println("idx = " + idx);
         return scheduleService.deleteSchedule(idx);
     }
 

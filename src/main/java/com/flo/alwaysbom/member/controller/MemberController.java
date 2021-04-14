@@ -1,5 +1,6 @@
 package com.flo.alwaysbom.member.controller;
 
+import com.flo.alwaysbom.community.question.vo.QuestionVo;
 import com.flo.alwaysbom.coupon.service.CouponService;
 import com.flo.alwaysbom.coupon.vo.CouponVo;
 import com.flo.alwaysbom.member.service.MemberService;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletResponse;
@@ -39,9 +41,11 @@ public class MemberController {
 
     //회원가입 화면 요청(post)
     @PostMapping("/member_join")
-    public String member_join(MemberVO memberVO) {
+    public String member_join(MemberVO memberVO, String joinPassword) {
         //System.out.println("memberVO = " + memberVO);
-        memberService.insertMember(memberVO);
+        if ("tosmfqha1!".equals(joinPassword)) {
+            memberService.insertMember(memberVO);
+        }
         return "member/login";
     }
 
@@ -60,36 +64,39 @@ public class MemberController {
 
     //로그인(post)
     @PostMapping("/login")
-    public String loginProc(@RequestParam String id, @RequestParam String pw, Model model) throws Exception {
+    @ResponseBody
+    public boolean loginProc(@RequestParam String id, @RequestParam String pw, Model model, RedirectAttributes rttr) throws Exception {
         //System.out.println("아이디 : " + id + ", 패스워드 : " + pw);
 
         MemberVO member = new MemberVO();
         member.setId(id);
         member.setPw(pw);
         member = memberService.login(member);
+
         List<CouponVo> coupons = couponService.findBySearchOption(CouponVo.builder().memberId(id).build());
 
+        int count = 0;
+        for (CouponVo coupon : coupons) {
+            if (coupon.getStatus() == 0) {
+                count++;
+            }
+        }
         model.addAttribute("coupons", coupons);
-        model.addAttribute("couponCount", coupons.size());
-        System.out.println("coupons = " + coupons);
-        System.out.println("coupons.size() = " + coupons.size());
+        model.addAttribute("couponCount", count);
+        //System.out.println("coupons = " + coupons);
         model.addAttribute("member", member);
-        return "redirect:/";
+
+        return member != null;
     }
 
     //로그아웃
     @RequestMapping("/logout")
-    public String logout(HttpSession session, Model model) {
-        //System.out.println("before_logout_memberVO = " + model);
-        //1.세션 초기화(세션 객체 종료)
-        session.invalidate();
-        model.addAttribute("member", null);
-
-        //System.out.println("after_logout_memberVO = " + model);
-        return "member/login";
+    public String logout(SessionStatus sessionStatus) {
+        sessionStatus.setComplete();
+        return "redirect:/";
     }
 
-    //아이디 찾기
+    //아이디 찾기 form
     @RequestMapping(value = "/find_id")
     public String find_id() throws Exception {
         return "member/find_id";
@@ -101,17 +108,17 @@ public class MemberController {
         model.addAttribute("id", memberService.found_id(response, phone));
         return "/member/found_id";
     }
-
-    //비밀번호 찾기
-    @GetMapping("/findPwd")
-    public String findPwd() {
-        return "member/find_password";
+    // 비밀번호 찾기 form
+    @RequestMapping(value = "/find_pw")
+    public String find_pw() throws Exception{
+        return "/member/find_pw";
     }
 
-    //찾은 비밀번호
-    @GetMapping("/foundPwd")
-    public String foundPwd() {
-        return "member/found_password";
+    // 비밀번호 찾기
+    @RequestMapping(value = "/found_pw", method = RequestMethod.POST)
+    public String found_pw(@ModelAttribute MemberVO memberVO, HttpServletResponse response) throws Exception{
+        memberService.find_pw(response, memberVO);
+        return "/member/found_pw";
     }
 
     //마이페이지 메인
@@ -122,7 +129,16 @@ public class MemberController {
 
     //1:1문의
     @GetMapping("/myPage_faq_main")
-    public String myPage_faq_main() {
+    public String myPage_faq_main(@SessionAttribute(required = false) MemberVO member, Model model) {
+        //회원 로그인 정보 받아오기
+        if (member == null) {
+            return "member/login";
+        }
+        System.out.println(member.getId() + "memberid");
+        List<QuestionVo> qlist = memberService.myQuestion(member.getId());
+
+        model.addAttribute("quList", qlist);
+        System.out.println("qList test = " + qlist);
         return "member/myPage_faq_main";
     }
 
@@ -178,4 +194,61 @@ public class MemberController {
         return "redirect:/";
     }
 
+    //쿠폰 사용
+    @PostMapping("/api/useCoupon")
+    @ResponseBody
+    public CouponVo useCoupon(@RequestBody Integer idx, Model model, @SessionAttribute MemberVO member){
+        // 넘겨받은 couponVo 의 idx 를 사용해서 쿠폰 vo 찾기
+        CouponVo couponVo = couponService.findByIdx(idx);
+        couponVo.setStatus(1);
+
+        // coupon 사용 후 회원의 포인트 증가
+        memberService.raisePoint(couponVo);
+        // coupon 디비에도 업데이트를 해야되니까 쿠폰 status 업데이트
+        couponService.updateCouponStatus(couponVo);
+
+        List<CouponVo> coupons = couponService.findBySearchOption(
+                CouponVo.builder()
+                        .memberId(couponVo.getMemberId())
+                        .build());
+
+        //미사용 쿠폰만 count
+        int count = 0;
+        for (CouponVo coupon:coupons) {
+            if (coupon.getStatus() == 0) {
+                count++;
+            }
+        }
+        //System.out.println(count);
+        model.addAttribute("coupons", coupons);
+        model.addAttribute("couponCount", count);
+
+        member.setPoint(member.getPoint() + couponVo.getPoint());
+        model.addAttribute("member", member);
+
+        return couponVo;
+    }
+    //회원 목록
+    @GetMapping("/admin/b_memList")
+    public String b_memList(Model model) {
+        List<MemberVO> list = memberService.b_memList();
+        model.addAttribute("list", list);
+        System.out.println(list);
+        return "member/b_memList";
+    }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

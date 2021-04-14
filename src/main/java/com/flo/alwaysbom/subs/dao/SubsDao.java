@@ -1,11 +1,14 @@
 package com.flo.alwaysbom.subs.dao;
 
+import com.flo.alwaysbom.community.review.dto.ReviewDto;
+import com.flo.alwaysbom.order.vo.OitemVo;
 import com.flo.alwaysbom.subs.vo.SubsVo;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Repository
@@ -32,5 +35,21 @@ public class SubsDao {
     }
     public void deleteSubs(Integer idx) {
         sqlSessionTemplate.delete("SUBS.deleteSubs",idx);
+    }
+
+    public Integer findByName(String name) {
+        return sqlSessionTemplate.selectOne("SUBS.findByName", name);
+    }
+
+    public List<ReviewDto> findReviewByIdx(Integer idx) {
+        return sqlSessionTemplate.selectList("SUBS.findReviewByIdx", idx);
+    }
+
+    public List<ReviewDto> findBestReview() {
+        return sqlSessionTemplate.selectList("SUBS.findBestReview");
+    }
+
+    public List<OitemVo> findAvailableOitemToReview(Map<String, String> map) {
+        return sqlSessionTemplate.selectList("SUBS.findAvailableOitemToReview", map);
     }
 }

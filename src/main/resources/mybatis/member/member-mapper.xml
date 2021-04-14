@@ -15,6 +15,7 @@
         FROM MEMBER
         WHERE id = #{id}
           AND pw = #{pw}
+          AND QUIT_STATUS = 0
     </select>
 
     <!-- 아이디 중복 확인 -->
@@ -34,7 +35,9 @@
 
     <!-- 회원 탈퇴 -->
     <delete id="deleteMember">
-        DELETE FROM MEMBER
+        UPDATE MEMBER
+        SET QUIT_STATUS = 1,
+            POINT = 0
         WHERE ID = #{id}
             AND PW = #{pw}
     </delete>
@@ -46,4 +49,28 @@
         WHERE PHONE = #{phone}
     </select>
 
+    <!-- 비밀번호 변경 -->
+    <update id="update_pw" parameterType="com.flo.alwaysbom.member.vo.MemberVO">
+        UPDATE MEMBER SET PW = #{pw} WHERE ID = #{id}
+    </update>
+
+    <!-- 쿠폰 사용 -->
+    <update id="raisePoint" parameterType="com.flo.alwaysbom.coupon.vo.CouponVo">
+        UPDATE MEMBER
+        SET POINT = POINT + #{point}
+        WHERE ID = #{memberId}
+    </update>
+    <!-- 1vs1 문의 리스트-->
+    <select id="myQuestion" parameterType="string" resultType="com.flo.alwaysbom.community.question.vo.QuestionVo">
+        SELECT * FROM MYQ
+        WHERE MEMBER_ID = #{id}
+    </select>
+
+    <!--회원 목록-->
+    <select id="b_memList" resultType="com.flo.alwaysbom.member.vo.MemberVO">
+        SELECT id, name, birth, gender, phone, grade, point
+        FROM member
+        WHERE QUIT_STATUS = 0
+        ORDER BY name
+    </select>
 </mapper>

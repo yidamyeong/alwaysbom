@@ -4,11 +4,11 @@ package com.flo.alwaysbom.community.event.controller;
 import com.flo.alwaysbom.community.event.service.EventService;
 import com.flo.alwaysbom.community.event.vo.EventVo;
 import com.flo.alwaysbom.util.CloudFileHandler;
+import com.flo.alwaysbom.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BackEventController {
     private final EventService servise;
-    private final CloudFileHandler fileHandler;
+    private final FileHandler fileHandler;
 
 
     @GetMapping("/admin/community/eventList")
@@ -47,6 +47,7 @@ public class BackEventController {
 
     @PostMapping("/admin/community/addEvent")
     public String addEventContent(EventVo vo, List<MultipartFile> file) throws IOException {
+        System.out.println(vo);
         vo.setThumb(fileHandler.uploadFile(file.get(0), null, "event"));
         vo.setImage1(fileHandler.uploadFile(file.get(1), null, "event"));
         vo.setImage2(fileHandler.uploadFile(file.get(2), null, "event"));
@@ -57,9 +58,9 @@ public class BackEventController {
     @PostMapping("/admin/community/eventDelete")
     public String eventDelete(Integer idx){
         EventVo vo = servise.eventDelete(idx);
-        fileHandler.deleteFile(vo.getThumb());
-        fileHandler.deleteFile(vo.getImage1());
-        fileHandler.deleteFile(vo.getImage2());
+//        fileHandler.deleteFile(vo.getThumb());
+//        fileHandler.deleteFile(vo.getImage1());
+//        fileHandler.deleteFile(vo.getImage2());
         return "redirect:/admin/community/eventList";
     }
 

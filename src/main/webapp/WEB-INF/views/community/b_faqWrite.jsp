@@ -32,7 +32,7 @@
                 </div>
                 <div class="md-3">
                     <label for="question" class="form-label">Question</label>
-                    <input type="text" class="form-control" name="question" id="question" value="${vo.question}" placeholder="질문입력">
+                    <input type="text" class="form-control" name="question" id="question" value="${vo.question}" placeholder="질문입력" autocomplete="off">
                 </div>
                 <div class="form-floating">
                     <textarea class="form-control" placeholder="내용을 입력하세요" id="answer" name="answer" style="height: 200px">${vo.answer}</textarea>

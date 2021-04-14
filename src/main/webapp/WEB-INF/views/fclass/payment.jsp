@@ -104,14 +104,14 @@
 
         <!-- 수강료 -->
         <div class="col-3 d-flex align-items-center justify-content-end">
-            <span class="text-secondary"><fmt:formatNumber value="${fclassVo.price}" pattern="#,###"/> 원</span>
+            <span class="text-secondary"><fmt:formatNumber value="${fclassVo.finalPrice}" pattern="#,###"/> 원</span>
         </div>
     </div>
 
     <!-- 적립금 -->
     <div class="col-12 py-4 ps-hana d-flex align-items-center border-1 border-secondary border-top border-bottom">
         <span class="fw-bold me-1">적립금</span>
-        <input type="number" id="input_my_point" autocomplete="off" class="mx-1 ps-3 border border-secondary btn-outline-white rounded-3" onkeyup="compareWithPoint(this)" onchange="compareWithPoint(this)">
+        <input type="number" id="input_my_point" autocomplete="off" class="mx-1 ps-3 border border-secondary btn-outline-white rounded-3" onkeyup="compareWithPoint(this)" onchange="compareWithPoint(this)" autocomplete="off">
         <button type="button" class="btn btn-sm btn-warning mx-1" onclick="usePoint()">적용</button>
         <span class="mx-1">* 사용 가능 포인트: <fmt:formatNumber value="${memberVo.point}" pattern="#,###"/></span>
     </div>
@@ -227,7 +227,7 @@
                 <div class="d-flex flex-column">
                     <div class="col-6 d-flex align-items-center">
                         <span>입금자명</span>
-                        <input type="text" class="mx-2" style="width:80px" aria-label="name">
+                        <input type="text" class="mx-2" style="width:80px" aria-label="name" autocomplete="off">
                         <span>미기재시 주문자명으로 자동 반영</span>
                     </div>
                     <div class="py-4">
@@ -243,7 +243,7 @@
                             <span>사업자증빙용</span>
                         </label>
                         <label>
-                            <input type="radio" name="cashReceipt" value="noApply">
+                            <input type="radio" name="cashReceipt" value="noApply" checked>
                             <span>미신청</span>
                         </label>
                     </div>

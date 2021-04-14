@@ -10,8 +10,8 @@
         <title>정기구독 상품 수정</title>
     </c:if>
     <%@ include file="../main/b_import.jspf"%>
-    <link rel="stylesheet" href="../../../static/css/item/b_addForm.css">
-    <script src="../../../static/ckeditor5-build-classic/ckeditor.js"></script>
+    <link rel="stylesheet" href="/static/css/item/b_addForm.css">
+    <script src="/static/ckeditor5-build-classic/ckeditor.js"></script>
 </head>
 <body>
 <%@ include file="../main/b_header.jspf"%>
@@ -107,11 +107,11 @@
             <div class="col-md">
                 <div class="form-floating my-2">
                     <c:if test="${empty subsVo}">
-                    <input type="text" name="name" class="form-control" id="itemName" placeholder="상품명 입력">
+                    <input type="text" name="name" class="form-control" id="itemName" placeholder="상품명 입력" autocomplete="off">
                     </c:if>
                     <c:if test="${not empty subsVo}">
                     <input type="text" name="name" class="form-control" id="itemName" placeholder="상품명 입력"
-                           value="${subsVo.name}">
+                           value="${subsVo.name}" autocomplete="off">
                     </c:if>
                     <label for="itemName">상품명 (한글 50자 미만)</label>
                 </div>
@@ -123,11 +123,11 @@
                 <div class="form-floating my-2">
                     <c:if test="${empty subsVo}">
                         <input type="text" name="price" class="form-control text-end"
-                               id="itemPrice" placeholder="가격" onchange="calculate()">
+                               id="itemPrice" placeholder="가격" onchange="calculate()" autocomplete="off">
                     </c:if>
                     <c:if test="${not empty subsVo}">
                         <input type="text" name="price" class="form-control text-end" value="${subsVo.price}"
-                               id="itemPrice" placeholder="가격" onchange="calculate()">
+                               id="itemPrice" placeholder="가격" onchange="calculate()" autocomplete="off">
                     </c:if>
                     <label for="itemPrice">상품 가격</label>
                 </div>
@@ -161,11 +161,11 @@
             <div class="col-md">
                 <div class="form-floating my-2">
                     <c:if test="${empty subsVo}">
-                    <input type="text" name="subheader" class="form-control" id="itemSubheader" placeholder="한줄 설명">
+                    <input type="text" name="subheader" class="form-control" id="itemSubheader" placeholder="한줄 설명" autocomplete="off">
                     </c:if>
                     <c:if test="${not empty subsVo}">
                     <input type="text" name="subheader" class="form-control" id="itemSubheader" placeholder="한줄 설명"
-                           value="${subsVo.subheader}">
+                           value="${subsVo.subheader}" autocomplete="off">
                     </c:if>
                     <label for="itemSubheader">한줄 설명 (한글 100자 미만)</label>
                 </div>
@@ -301,6 +301,6 @@
         frm.submit();
     }
 </script>
-<script src="../../../static/js/imageUploader.js"></script>
+<script src="/static/js/imageUploader.js"></script>
 </body>
 </html>

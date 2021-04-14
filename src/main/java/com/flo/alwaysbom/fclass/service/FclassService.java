@@ -1,6 +1,8 @@
 package com.flo.alwaysbom.fclass.service;
 
+import com.flo.alwaysbom.community.review.dto.ReviewDto;
 import com.flo.alwaysbom.fclass.dao.FclassDao;
+import com.flo.alwaysbom.fclass.vo.FclassReviewDto;
 import com.flo.alwaysbom.fclass.vo.FclassVo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,5 +46,11 @@ public class FclassService {
 
     public List<FclassVo> findClassByCategory(String category) {
         return dao.findClassByCategory(category);
+    }
+
+    public FclassReviewDto findReviewsByOption(Integer idx, Integer startIndex, Integer endIndex) {
+        Integer count = dao.findReviewsCount(idx);
+        List<ReviewDto> reviews = dao.findReviewsByOption(idx, startIndex, endIndex);
+        return new FclassReviewDto(count, reviews);
     }
 }

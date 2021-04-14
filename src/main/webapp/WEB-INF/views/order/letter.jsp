@@ -14,7 +14,34 @@
             document.querySelector("#letter_press_cnt_[data-preview-index='" + index + "']").innerHTML = letter.length;
         }
 
+        //메세지 체크박스 선택 안했는데 메세지 비어있을때!
+        function checkForm() {
+            //flower_letter form을 전부 선택해준다. (배열로)
+            const $forms = document.querySelectorAll(".flower_letter");
+
+            <%--if (${member.id == null}) {--%>
+            <%--    alert("로그인이 필요합니다.");--%>
+            <%--}--%>
+            
+            //선택한 폼들을 하나씩 돌려주면서...
+            for (const $form of $forms) {
+                // 돌려주면서 폼 안에서 message, check 를 선택해준다.
+                const $message = $form.querySelector("#message");
+                const check = $form.querySelector("#letter_none").checked;
+
+                //편지 1개 -> 안의 폼 안에 값들 (message, check)를 하나씩 비교하면서 if 조건 비교 후 reture or submit 해준다.
+                if ($message.value === "" && !check) {
+                    alert("메세지를 입력해주세요.\n메세지 없이 카드만 받고싶으시면 선택해주세요.");
+                    $message.focus();
+                    return false;
+                }
+            }
+            submitForm();
+        }
+
+        //편지값 전송
         function submitForm() {
+
             //class="flower_letter"의 폼을 전부 선택.
             let letters = document.querySelectorAll(".flower_letter");
             let datas = [];
@@ -44,19 +71,23 @@
         }
 
         function letterNone(event, btn) {
+
+             let message = document.querySelector("#message");
+
             if(event.target.checked) {
                 btn.form.querySelector('#letter_input_form').style.display = 'none';
+                message.value = 'null';
             } else {
                 btn.form.querySelector('#letter_input_form').style.display = 'block';
+                message.value = '';
             }
         }
+
     </script>
 </head>
-
 <body>
 <%@ include file="../main/header.jspf" %>
-
-    <div class="container">
+    <div id="container" class="mx-auto">
         <!-- 헤더 -->
         <div class="checkout_wrap">
             <div class="navi" tabindex="-1">
@@ -66,19 +97,28 @@
                     <div class="step"><span class="order"><b>3</b><span class="desc">결제</span></span></div>
                 </ul>
             </div>
-
             <!-- 편지 폼 -->
             <div class="checkout_letter_add">
                 <div class="head">
                     <div class="float-start">
                         <h4 class="tit">메시지카드</h4>
                     </div><br>
+                    <c:forEach var="oitem" items="${oitemList}" varStatus="status">
+                        <c:if test="${oitem.hasLetter eq false}">
+                    <div class="float-xl-none py-5 px-3">
+                        <p> 메세지 카드를 옵션을 선택하지 않았습니다.</p>
+                        <p> 메세지 카드를 원하지 않으시면<i class="text-warning px-2">다음 버튼</i>을 눌러 결제를 진행해주세요.</p>
+                        <p> 메세지 카드를 선택하고 싶으시면<i class="text-warning px-2">이전 페이지<i>를 눌러 카드 선택 옵션을 추가해주세요.</p>
+                    </div>
+                        </c:if>
+                    </c:forEach>
                 </div>
+
 
                 <!-- letter 옵션 추가시, 그 개수만큼 생성해준다. -->
                 <c:forEach var="oitem" items="${oitemList}" varStatus="status">
                 <c:if test="${oitem.hasLetter eq true}">
-                    <form class="flower_letter">
+                    <form class="flower_letter" name="letter_form" onSubmit="return CheckForm(this)">
                     <div id="letterbox-wrapper">
                          <input type="hidden" name="list_idx" value="${status.index}">
                         <div id="letter_product" class="letterbox">
@@ -91,7 +131,8 @@
                                     <div class="col-12">
                                         <div class="form-check">
                                             <label class="form-check-label">
-                                                <input class="form-check-input" type="checkbox" id="letter_none" value="letterNone" onclick="letterNone(event, this)"/>
+                                                <input class="form-check-input" type="checkbox" id="letter_none" name="letter_none"
+                                                       value="letterNone" onclick="letterNone(event, this)" data-index="${status.index}"/>
                                                 메세지 없이 카드만 받을게요
                                             </label>
                                         </div>
@@ -115,24 +156,23 @@
                                         <span class="noti">* 실제 편지지 모습입니다. 최대 8줄까지만 인쇄됩니다.</span>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
                     </form>
                     </c:if>
                     </c:forEach>
-                        <!-- 버튼 -->
-                        <div class="float-end">
-                            <button type="button" class="btn btn-outline-secondary btn-lg"
-                                    onclick="history.back()">이전 화면으로</button>
-                            <!-- 여기서 받은 데이터를 submitForm() -->
-                            <button type="button" class="btn btn btn-secondary btn-lg" onclick="submitForm()">다음 단계로</button>
-                        </div>
-                        <br>
                         </div>
                     </div>
+                <!-- 버튼 -->
+                <div class="float-end">
+                    <button type="button" class="btn btn-outline-secondary btn-lg"
+                            onclick="history.back()">이전 화면으로</button>
+                    <!-- 여기서 받은 데이터를 submitForm() -->
+                    <button type="button" class="btn btn btn-secondary btn-lg" onclick="checkForm()">다음 단계로</button>
+                </div>
+                <br>
+            </div>
 <%@ include file="../main/footer.jspf"%>
 </body>
 </html>

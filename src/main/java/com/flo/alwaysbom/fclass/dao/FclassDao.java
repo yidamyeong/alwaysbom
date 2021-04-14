@@ -1,5 +1,6 @@
 package com.flo.alwaysbom.fclass.dao;
 
+import com.flo.alwaysbom.community.review.dto.ReviewDto;
 import com.flo.alwaysbom.fclass.vo.FclassVo;
 import lombok.RequiredArgsConstructor;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -21,7 +22,6 @@ public class FclassDao {
     }
 
     public int updateFclass(FclassVo vo) {
-        System.out.println("Dao : vo = " + vo);
         sqlSessionTemplate.update("fclass.updateFclass", vo);
 
         // FCB 테이블에서 현재 fclass에 해당하는 행을 다 지운다
@@ -55,7 +55,19 @@ public class FclassDao {
 
     public List<FclassVo> findClassByCategory(String category) {
         List<FclassVo> fclassVos = sqlSessionTemplate.selectList("fclass.findClassByCategory", category);
-        System.out.println("fclassVos = " + fclassVos);
         return fclassVos;
+    }
+
+    public Integer findReviewsCount(Integer idx) {
+        return sqlSessionTemplate.selectOne("fclass.findReviewsCount", idx);
+    }
+
+    public List<ReviewDto> findReviewsByOption(Integer idx, Integer startIndex, Integer endIndex) {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("idx", idx);
+        map.put("startIndex", startIndex);
+        map.put("endIndex", endIndex);
+
+        return sqlSessionTemplate.selectList("fclass.findReviewsByOption", map);
     }
 }

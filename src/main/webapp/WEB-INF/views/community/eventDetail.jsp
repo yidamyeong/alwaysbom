@@ -23,6 +23,7 @@
         <div class="w-auto overflow-auto d-flex flex-column justify-content-center">${eventVo.content}</div>
     </div>
     <!-- Reply Form {s} -->
+        <c:if test="${sessionScope.member != null}">
     <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
         <form name="form" id="form" action="/community/eco/addEcomment" method="post">
             <div class="row">
@@ -37,6 +38,7 @@
             </div>
         </form>
     </div>
+        </c:if>
     <!-- Reply Form {e} -->
     <!-- Reply List {s}-->
     <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
@@ -80,6 +82,7 @@
         let eidx = {
             "idx": eid
         }
+        let adminId = '${admin.id}'
         $.ajax({
             url: '/api/community/eco/ecommentList',
             data: eidx,
@@ -98,13 +101,14 @@
                         + '</span>'
                         + ' <p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">'
                         + '<span class="d-block">'
-                        + '<strong class="text-gray-dark">' + this.memberId + '</strong>'
-                        + '<span id="eco-span" class="eco-span">'
-
-                        + '<button type="button" class="px-2 btn btn-sm btn-light" onclick="fn_editReply(`' + this.idx +'`, `' + this.memberId + '`, `' + this.content + '`)">수정</button>'
-                        + '<button type="button" class="px-2 btn btn-sm btn-warning" onclick="fn_deleteReply(`' + this.idx + '`)" >삭제</button>'
-                        + '<button type="button" class="px-2 btn-sm btn btn-danger" onclick="fn_reportReply(`' + this.idx + '`)" >신고</button>'
-                            + '<span class="d-block">' + this.content + '</span>'
+                        + '<strong class="text-gray-dark">' + this.memberId.substring(0,4) + '***</strong>'
+                        + '<span id="eco-span" class="eco-span">';
+                        if(memid == this.memberId || adminId == 'admin'){
+                        htmls += '<button type="button" class="px-2 btn btn-sm btn-light" onclick="fn_editReply(`' + this.idx +'`, `' + this.memberId + '`, `' + this.content + '`)">수정</button>'
+                        + '<button type="button" class="px-2 btn btn-sm btn-warning" onclick="fn_deleteReply(`' + this.idx + '`)" >삭제</button>';
+                        }
+                        htmls += '<button type="button" class="px-2 btn-sm btn btn-danger" onclick="fn_reportReply(`' + this.idx + '`)" >신고</button>';
+                        htmls += '<span class="d-block">' + this.content + '</span>'
                         + '</sapn>'
                         + '</sapn>'
                         +    '</p>'

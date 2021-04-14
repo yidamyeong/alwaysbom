@@ -12,7 +12,7 @@
                 , #{discountGrade}, #{discountPoint},
         #{fclassName}, #{branchName}, #{branchAddr}, #{fclassImage}, #{scheduleDate},
         #{scheduleStartTime}, #{scheduleEndTime}, #{fclassCount}, #{status}, #{reviewCheck},
-        #{discountTotalPrice}, #{fclassIdx}, #{scheduleIdx})
+        #{discountTotalPrice}, #{fclassIdx}, #{scheduleIdx}, SYSDATE, #{reviewIdx})
     <selectKey keyProperty="idx" resultType="int" order="AFTER">
         SELECT OCLASS_SEQ.currval FROM DUAL
     </selectKey>
@@ -58,5 +58,40 @@
         DELETE FROM OCLASS
         WHERE IDX = #{idx}
     </delete>
+
+    <update id="updateClassImg" parameterType="com.flo.alwaysbom.fclass.vo.OclassVo">
+        UPDATE OCLASS
+        SET FCLASS_IMAGE = #{fclassImage}
+        WHERE FCLASS_IDX = #{fclassIdx}
+    </update>
+
+    <select id="findReviewable" parameterType="com.flo.alwaysbom.fclass.vo.OclassVo" resultType="com.flo.alwaysbom.fclass.vo.OclassVo">
+        SELECT * FROM OCLASS
+        WHERE MEMBER_ID = #{memberId}
+          AND   FCLASS_IDX = #{fclassIdx}
+          AND   STATUS = '결제완료'
+          AND   REVIEW_CHECK = 0
+        ORDER BY SCHEDULE_DATE, ORDER_DATE
+    </select>
+
+    <insert id="addReview" parameterType="com.flo.alwaysbom.fclass.vo.FclassReviewForm">
+        INSERT INTO REVIEW(IDX, CATEGORY, FCLASS_IDX, NAME, MEMBER_ID, IMAGE, CONTENT, STAR)
+        VALUES(null, '클래스', #{fclassIdx}, #{name}, #{memberId}, #{image}, #{content}, #{star})
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT REVIEW_SEQ.currval FROM DUAL
+        </selectKey>
+    </insert>
+
+    <update id="updateReviewCheck" parameterType="com.flo.alwaysbom.fclass.vo.FclassReviewForm">
+        UPDATE OCLASS
+        SET REVIEW_CHECK = 1, REVIEW_IDX = #{idx}
+        WHERE IDX = #{oclassIdx}
+    </update>
+
+    <update id="updatePoint" parameterType="map">
+        UPDATE MEMBER
+        SET POINT = POINT + #{point}
+        WHERE ID = #{memberId}
+    </update>
 
 </mapper>

@@ -23,7 +23,7 @@
                     <input type="radio" class="btn-check" name="category" value="플로리스트" id="btnradio2" autocomplete="off">
                     <label class="btn btn-outline-primary" for="btnradio2">플로리스트</label>
                 </div>
-                    <c:forEach var="branch" items="${classList.branchName}" varStatus="status">
+                    <c:forEach var="branch" items="${branchList}" varStatus="status">
                         <div class="form-check d-flex flex-wrap">
                             <input class="form-check-input" type="checkbox" value="${branch.idx}"
                                    name="branches" id="cb${status.index}">
@@ -32,25 +32,25 @@
                     </c:forEach>
 
                 <div class="form-floating mb-4 text-secondary">
-                    <input type="text" name="name" class="form-control text-secondary" id="name" placeholder="name">
+                    <input type="text" name="name" class="form-control text-secondary" id="name" placeholder="name" required autocomplete="off">
                     <label for="name">class name</label>
                 </div>
                 <div class="form-floating mb-4 text-secondary">
-                    <input type="text" name="subheader" class="form-control text-secondary" id="subheader" placeholder="subheader">
+                    <input type="text" name="subheader" class="form-control text-secondary" id="subheader" placeholder="subheader" required autocomplete="off">
                     <label for="subheader">subHeader</label>
                 </div>
                 <div class="form-floating mb-4 text-secondary">
-                    <input type="text" name="price" class="form-control text-secondary" id="price" placeholder="price">
+                    <input type="text" name="price" class="form-control text-secondary" id="price" placeholder="price" pattern="^[0-9]+$" required autocomplete="off">
                     <label for="price">price</label>
                 </div>
                 <div class="form-floating mb-4 text-secondary">
-                    <input type="text" name="discountRate" class="form-control text-secondary" id="discountRate"
-                           placeholder="discountRate">
+                    <input type="text" name="discountRate" class="form-control text-secondary" pattern="^[0-9]+$" id="discountRate"
+                           placeholder="discountRate" required autocomplete="off">
                     <label for="discountRate">discount rate</label>
                 </div>
                 <div class="form-floating text-secondary">
-                    <input type="text" name="count" class="form-control text-secondary" id="count"
-                           placeholder="count">
+                    <input type="text" name="count" class="form-control text-secondary" id="count" pattern="^[0-9]+$"
+                           placeholder="count" required autocomplete="off">
                     <label for="count">count</label>
                 </div>
             </div>
@@ -58,7 +58,7 @@
             <div class="col-8 d-flex">
                 <div class="card col-4">
                     <div class="card-header mb-3">
-                        <input type="file" name="file" class="form-control text-secondary" id="file1" onchange="preview(this, 'img1')">
+                        <input type="file" name="file" class="form-control text-secondary" id="file1" onchange="preview(this, 'img1')" required>
 <%--                        <label class="input-group-text" for="file1">File 1</label>--%>
                     </div>
                     <img src="" alt="사진" class="card-img-bottom d-none text-secondary" id="img1">

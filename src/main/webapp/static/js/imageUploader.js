@@ -83,7 +83,7 @@ function MyCustomUploadAdapterPlugin(editor) {
         return new MyUploadAdapter(loader);
     };
 }
-
+let myEditor;
 ClassicEditor
     .create(document.querySelector('#content'), {
         extraPlugins: [MyCustomUploadAdapterPlugin],
@@ -96,7 +96,7 @@ ClassicEditor
             ]
         },
 
-        toolbar: ['heading', '|', 'fontFamily', 'bold', 'imageUpload', 'insertTable', 'imageStyle:full', 'imageStyle:alignLeft', 'imageStyle:alignRight'],
+        toolbar: ['heading', '|', 'bold', 'imageUpload', 'insertTable', 'imageStyle:full'],
 
         heading: {
             options: [
@@ -109,6 +109,9 @@ ClassicEditor
                 {model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6'}
             ]
         }
+    })
+    .then(editor => {
+        myEditor = editor;
     })
     .catch(error => {
         console.log(error);

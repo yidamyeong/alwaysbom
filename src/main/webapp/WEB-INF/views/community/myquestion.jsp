@@ -29,7 +29,7 @@
                                 <label for="name" class="col-form-label">제목</label>
                             </div>
                             <div class="mb-3">
-                                <input type="text" id="name" name="name" class="form-control">
+                                <input type="text" id="name" name="name" class="form-control" autocomplete="off">
                             </div>
                             <div class="col-auto">
                                 <label for="content" class="col-form-label">내용</label>
@@ -68,11 +68,13 @@
 </body>
 <script>
 
-    // JSON.stringify(obj)  =>  {"a":"hi", "b":,"hello"}
-    // new URLSearchParams(obj) => a=hi&b=hello
+
     function questionUpload() {
-        // let formData = $("#question-form").serialize();
         let formData = new FormData(document.querySelector("#question-form"));
+            // $("#question-form").serialize();
+        // let formData = $('form').serialize();
+            // new FormData(document.querySelector("#question-form"));
+            // $(form).serialize();
         $.ajax({
             url: '/admin/question/api/writeQuest',
             method: "post",
@@ -81,7 +83,8 @@
             data: formData,
             dataType: "json",
             success: function(result) {
-                alert("성공" + result);
+                // alert("result");
+                location.href = "/myPage_faq_main";
             }
         });
     }

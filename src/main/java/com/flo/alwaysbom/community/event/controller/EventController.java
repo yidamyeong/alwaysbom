@@ -6,6 +6,7 @@ import com.flo.alwaysbom.community.event.service.EventService;
 import com.flo.alwaysbom.community.event.vo.EcommentVo;
 import com.flo.alwaysbom.community.event.vo.EventVo;
 import com.flo.alwaysbom.util.CloudFileHandler;
+import com.flo.alwaysbom.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +17,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class EventController {
-    private final CloudFileHandler fileHandler;
+    private final FileHandler fileHandler;
     private final EventService servise;
     private final EcommentService ecommentService;
 

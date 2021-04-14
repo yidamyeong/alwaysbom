@@ -53,27 +53,27 @@
 
             <div class="form-floating mb-4">
                 <input type="text" name="name" class="form-control" id="name" placeholder="name"
-                       value="${classInfo.name}">
+                       value="${classInfo.name}" autocomplete="off">
                 <label for="name">class name</label>
             </div>
             <div class="form-floating mb-4">
                 <input type="text" name="subheader" class="form-control" id="subheader" placeholder="subheader"
-                       value="${classInfo.subheader}">
+                       value="${classInfo.subheader}" autocomplete="off">
                 <label for="subheader">class subheader</label>
             </div>
             <div class="form-floating mb-4">
                 <input type="text" name="price" class="form-control" id="price" placeholder="price"
-                       value="${classInfo.price}">
+                       value="${classInfo.price}" autocomplete="off">
                 <label for="price">price</label>
             </div>
             <div class="form-floating mb-4">
                 <input type="text" name="discountRate" class="form-control" id="discountRate"
-                       placeholder="discountRate" value="${classInfo.discountRate}">
+                       placeholder="discountRate" value="${classInfo.discountRate}" autocomplete="off">
                 <label for="discountRate">discountRate</label>
             </div>
             <div class="form-floating">
                 <input type="text" name="count" class="form-control" id="count"
-                       placeholder="count" value="${classInfo.count}">
+                       placeholder="count" value="${classInfo.count}" autocomplete="off">
                 <label for="count">class count</label>
             </div>
         </div>
@@ -93,7 +93,7 @@
                     <%--                        <label class="input-group-text" for="file2">File 2</label>--%>
                     <input type="hidden" name="image2" value="${classInfo.image2}">
                 </div>
-                <img src="${classInfo.image2}" alt="사진" class="card-img-bottom" id="img2">
+                <img src="${classInfo.image2}" alt="사진" class="card-img-bottom ${empty classInfo.image2 ? 'd-none' : ''}" id="img2">
             </div>
             <div class="card col-4">
                 <div class="card-header mb-3">
@@ -101,7 +101,7 @@
                     <%--                        <label class="input-group-text" for="file3">File 3</label>--%>
                     <input type="hidden" name="image3" value="${classInfo.image3}">
                 </div>
-                <img src="${classInfo.image3}" alt="사진" class="card-img-bottom" id="img3">
+                <img src="${classInfo.image3}" alt="사진" class="card-img-bottom ${empty classInfo.image2 ? 'd-none' : ''}" id="img3">
             </div>
         </div>
     </div>

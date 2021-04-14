@@ -3,6 +3,7 @@ package com.flo.alwaysbom.subs.controller;
 import com.flo.alwaysbom.subs.service.SubsService;
 import com.flo.alwaysbom.subs.vo.SubsVo;
 import com.flo.alwaysbom.util.CloudFileHandler;
+import com.flo.alwaysbom.util.FileHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +20,7 @@ import java.util.List;
 public class BackSubsController {
 
     private final SubsService subsService;
-    private final CloudFileHandler fileHandler;
+    private final FileHandler fileHandler;
 
     //백오피스 정기구독 이동
     @GetMapping("/admin/subs")

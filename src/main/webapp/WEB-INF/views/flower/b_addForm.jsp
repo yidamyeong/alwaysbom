@@ -10,8 +10,8 @@
         <title>꽃다발 상품 수정</title>
     </c:if>
     <%@ include file="../main/b_import.jspf"%>
-    <link rel="stylesheet" href="../../../static/css/item/b_addForm.css">
-    <script src="../../../static/ckeditor5-build-classic/ckeditor.js"></script>
+    <link rel="stylesheet" href="/static/css/item/b_addForm.css">
+    <script src="/static/ckeditor5-build-classic/ckeditor.js"></script>
 </head>
 <body>
 <%@ include file="../main/b_header.jspf"%>
@@ -108,11 +108,11 @@
             <div class="col-md">
                 <div class="form-floating my-2">
                     <c:if test="${empty flowerVo}">
-                    <input type="text" name="name" class="form-control" id="itemName" placeholder="상품명 입력">
+                    <input type="text" name="name" class="form-control" id="itemName" placeholder="상품명 입력" autocomplete="off">
                     </c:if>
                     <c:if test="${not empty flowerVo}">
                     <input type="text" name="name" class="form-control" id="itemName" placeholder="상품명 입력"
-                           value="${flowerVo.name}">
+                           value="${flowerVo.name}" autocomplete="off">
                     </c:if>
                     <label for="itemName">상품명 (한글 50자 미만)</label>
                 </div>
@@ -121,11 +121,11 @@
             <div class="col-md">
                 <div class="form-floating my-2">
                     <c:if test="${empty flowerVo}">
-                    <input type="text" name="subheader" class="form-control" id="itemSubheader" placeholder="한줄 설명">
+                    <input type="text" name="subheader" class="form-control" id="itemSubheader" placeholder="한줄 설명" autocomplete="off">
                     </c:if>
                     <c:if test="${not empty flowerVo}">
                     <input type="text" name="subheader" class="form-control" id="itemSubheader" placeholder="한줄 설명"
-                           value="${flowerVo.subheader}">
+                           value="${flowerVo.subheader}" autocomplete="off">
                     </c:if>
                     <label for="itemSubheader">한줄 설명 (한글 100자 미만)</label>
                 </div>
@@ -186,11 +186,11 @@
                 <div class="form-floating my-2">
                     <c:if test="${empty flowerVo}">
                     <input type="text" name="price" class="form-control text-end"
-                           id="itemPrice" placeholder="가격" onchange="calculate()">
+                           id="itemPrice" placeholder="가격" onchange="calculate()" autocomplete="off">
                     </c:if>
                     <c:if test="${not empty flowerVo}">
                     <input type="text" name="price" class="form-control text-end" value="${flowerVo.price}"
-                           id="itemPrice" placeholder="가격" onchange="calculate()">
+                           id="itemPrice" placeholder="가격" onchange="calculate()" autocomplete="off">
                     </c:if>
                     <label for="itemPrice">상품 가격</label>
                 </div>
@@ -243,17 +243,17 @@
             <div class="col-md-4">
                 <div class="form-floating my-2">
                     <c:if test="${empty flowerVo}">
-                    <input type="number" max="50" class="form-control" name="discountRate"
+                    <input type="number" max="50" class="form-control" name="discountRate" autocomplete="off"
                            id="discountRate" placeholder="할인율" onchange="calculate()" disabled>
                     </c:if>
                     <c:if test="${not empty flowerVo}">
                         <c:if test="${not empty flowerVo.discountRate && flowerVo.discountRate > 0}">
                         <input type="number" max="50" class="form-control" name="discountRate" placeholder="할인율"
-                               value="${flowerVo.discountRate}" id="discountRate" onchange="calculate()">
+                               value="${flowerVo.discountRate}" id="discountRate" onchange="calculate()" autocomplete="off">
                         </c:if>
                         <c:if test="${empty flowerVo.discountRate || flowerVo.discountRate <= 0}">
                         <input type="number" max="50" class="form-control" name="discountRate" placeholder="할인율"
-                               id="discountRate" onchange="calculate()" disabled>
+                               id="discountRate" onchange="calculate()" disabled autocomplete="off">
                         </c:if>
                     </c:if>
                     <label for="discountRate">할인율 (숫자만 입력)</label>
@@ -348,10 +348,14 @@
                 finalPrice.classList.add("text-danger", "description");
             }
             /*-- 추후 price 칸에 숫자만 입력할 수 있도록 조건 처리해야 함 --*/
+            else if (!parseInt(priceVal)) {
+                finalPriceVal = "상품 가격에 숫자만 입력해주세요";
+                finalPrice.classList.add("text-danger", "description");
+            }
             else {
                 finalPrice.classList.remove("text-danger", "description");
                 finalPriceVal =
-                    Math.floor((100 - Number(discountRateVal)) * 0.01 * Number(priceVal)) + " 원";
+                    Math.floor((100 - Number(discountRateVal)) * 0.01 * Number(priceVal)).toLocaleString('ko-KR') + " 원";
                 console.log("finalPriceVal : " + finalPriceVal);
             }
         }
@@ -384,16 +388,71 @@
         }
     }
 
+    /* 유효성 검사 */
+    function checkValidation(isInsert) {
+        const $inputs = document.getElementsByTagName("input");
+        const $options = document.querySelector('#itemSize').options;
+        let isSelected = false;
+        for (let i = 0; i < $options.length; i++) {
+            if (i > 0 && $options[i].selected) {
+                isSelected = true;
+                break;
+            }
+        }
+        let isValidate = true;
+
+        if (isInsert) {
+            if (!document.getElementById('file1').value) {
+                alert("대표 이미지 하나는 필수로 업로드하셔야합니다.");
+                isValidate = false;
+            }
+        }
+        if (!$inputs.name.value) {
+            alert("상품명을 입력해주세요.");
+            isValidate = false;
+        }
+        else if (!$inputs.subheader.value) {
+            alert("한줄 설명을 작성해주세요.");
+            isValidate = false;
+        }
+        else if (!isSelected) {
+            alert("꽃다발의 사이즈를 선택해주세요.");
+            isValidate = false;
+        }
+        else if (!$inputs.price.value) {
+            alert("상품의 가격을 입력해주세요.");
+            isValidate = false;
+        }
+        else if (!parseInt($inputs.price.value)) {
+            alert("가격에 숫자가 아닌 문자열이 섞여 있습니다.");
+            isValidate = false;
+        }
+        else if (!myEditor.getData()) {
+            alert("상품을 상세설명을 입력해주세요.");
+            isValidate = false;
+        }
+        return isValidate;
+    }
+
     /* 폼데이터 전송후 창 이동 */
     function goInsert(frm) {
-        frm.action = "/admin/addFlower";
-        frm.submit();
+        if (checkValidation(true)) {
+            frm.action = "/admin/addFlower";
+            frm.submit();
+        } else {
+            return;
+        }
     }
+
     function goUpdate(frm) {
-        frm.action = "/admin/updateFlower";
-        frm.submit();
+        if (checkValidation(false)) {
+            frm.action = "/admin/updateFlower";
+            frm.submit();
+        } else {
+            return;
+        };
     }
 </script>
-<script src="../../../static/js/imageUploader.js"></script>
+<script src="/static/js/imageUploader.js"></script>
 </body>
 </html>

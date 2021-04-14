@@ -8,9 +8,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <%@ include file="../main/b_import.jspf" %>
+
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script>
         async function goFaqList(faqType) {
+            $(".cate").removeClass("btn-dark");
+            $(faqType).addClass("btn-dark");
                 let category = {
                     category : faqType.getAttribute("id")
             }
@@ -26,14 +29,14 @@
 
             let dispHtml = "";
             for (let data of result) {
-                dispHtml += '<ul class="dropdown-menu">';
-                dispHtml += "<li>";
+                dispHtml += '<ul class="dropdown-menu listnone">';
+                dispHtml += "<li class='listnone'>";
                 dispHtml += data.answer;
                 dispHtml += "</li>";
                 dispHtml += "</ul>";
                 dispHtml += "</div>";
 
-                dispHtml += "<li>";
+                dispHtml += "<li class='listnone'>";
                 dispHtml += "<p>" + data.question + "</p>";
                 dispHtml += '<p><label for="idx' + data.idx +'">';
                 dispHtml += '<input type="radio" name="idx" value="' + data.idx + '"id="idx' + data.idx +'">' + data.answer;
@@ -46,9 +49,16 @@
 
         $(function () {
             let startFaqType = document.querySelector("#FAQ");
+            $(".cate").removeClass("btn-dark");
+            $("#FAQ").addClass("btn-dark");
             goFaqList(startFaqType);
         });
     </script>
+    <style>
+        .listnone {
+            list-style: none;
+        }
+    </style>
 </head>
 
 
@@ -59,23 +69,35 @@
         <h2>자주 묻는 질문</h2>
         <div>
             <form method="post">
-            <ul class="nav justify-content-around faqBox">
+                <div class="d-flex align-items-baseline review-category col-12 justify-content-around mt-0">
                 <c:forEach var="category" items="${category}">
-                    <li class="nav-item-3" id="${category}">
-                        <a class="nav-link" id="${category}" href="#" onclick="goFaqList(this)">${category}</a>
+                    <label class="" id="list-${category}">
+                        <a class="d-block text-center btn btn-dark py-3 px-5 btn-rev cate" id="${category}" href="#" onclick="goFaqList(this)">${category}</a>
+                    </label>
+
+                </c:forEach>
+                </div>
+
+
+         <%--   <ul class="nav col-12 justify-content-xl-around faqBox">
+                <c:forEach var="category" items="${category}">
+                    <li class="nav-item pe-auto pt-2" id="list-${category}">
+                        <a class="cate nav-link mt-2 text-dark bg-dark" id="${category}" href="#" onclick="goFaqList(this)">${category}</a>
                     </li>
                 </c:forEach>
-            </ul>
-                <div class="accordion accordion-flush" id="accordionFlushExample"></div>
+            </ul>--%>
+                <div class="accordion accordion-flush" id="accordionFlushExample">
+
+                </div>
                 <div>
+                    <button type="button" class="btn btn-outline-secondary"
+                            onclick="goWrite()">추가
+                    </button>
                     <button type="button" class="btn btn-secondary"
                             onclick="goUpdate(this.form)">수정
                     </button>
                     <button type="button" class="btn btn-outline-danger"
                             onclick="goDelete(this.form)">삭제
-                    </button>
-                    <button type="button" class="btn btn-outline-danger"
-                            onclick="goWrite()">추가
                     </button>
                 </div>
             </form>
@@ -85,6 +107,13 @@
 
 <%@ include file="../main/b_footer.jspf"%>
 </body>
+<style>
+    .listnone{
+        list-style: none;
+        white-space: pre-wrap;
+        border-bottom: #3A3A3A 2px solid;
+    }
+</style>
 <script>
 // JSON.stringify(obj)  =>  {"a":"hi", "b":,"hello"}
 // new URLSearchParams(obj) => a=hi&b=hello
@@ -120,5 +149,6 @@ function goUpdate(form) {
 
 
 </script>
+
 </html>
 

@@ -21,6 +21,7 @@
                         } else {
                         document.getElementById('findAddr').click();
                         document.getElementById('find-name').value = data.receiverName;
+                        document.getElementById('find-phone').value = data.receiverPhone;
                         document.getElementById('find-zipcode').value = data.receiverZipcode;
                         document.getElementById('find-address').value = data.receiverAddrBase;
                         document.getElementById('find-address-details').value = data.receiverAddrDetail;
@@ -37,18 +38,17 @@
 </head>
 <body>
 <%@ include file="../main/header.jspf" %>
-<div class="container">
+<div id=“container” class=“mx-auto”>
     <!-- 헤더 -->
     <div class="checkout_wrap">
         <div class="navi" tabindex="-1">
-            <ol class="process">
-                <li class="step"><span class="order"><b>1</b><span class="desc">편지 추가</span></span></li>
-                <li class="step current"><span class="order"><b>2</b><span class="desc">주소 입력</span></span></li>
-                <li class="step"><span class="order"><b>3</b><span class="desc">결제</span></span></li>
-            </ol>
+            <ul class="process">
+                <div class="step current"><span class="order"><b>1</b><span class="desc">편지 추가</span></span></div>
+                <div class="step"><span class="order"><b>2</b><span class="desc">주소 입력</span></span></div>
+                <div class="step"><span class="order"><b>3</b><span class="desc">결제</span></span></div>
+            </ul>
         </div>
-
-        <form name="frm" method="post">
+        <form name="frm" method="post" action="/order/payment" onsubmit="return submitForm()">
             <div class="checkout_content">
                 <div class="step" id="inputAddress">
                     <div class="infomation_box">
@@ -77,9 +77,9 @@
                                                    data-bs-toggle="modal" data-bs-target="#noneModal">
 
                                             <label class="btn btn-outline-primary" for="btnradio2">배송지 목록</label>
-                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3"
-                                                   onclick="addSender()" autocomplete="off">
-                                            <label class="btn btn-outline-primary" for="btnradio3">받는 분이 입력</label>
+<%--                                            <input type="radio" class="btn-check" name="btnradio" id="btnradio3"--%>
+<%--                                                   onclick="addSender()" autocomplete="off">--%>
+<%--                                            <label class="btn btn-outline-primary" for="btnradio3">받는 분이 입력</label>--%>
                                         </div>
                                     </div>
                                 </div>
@@ -99,14 +99,14 @@
                                                 </c:forEach>
                                                 <span class="th">수령인 이름</span>
                                                 <div class="td">
-                                                    <input maxlength="255" id="receiving_name" name="receiverName" type="text" value="유나" autocomplete="off">
+                                                    <input maxlength="255" id="receiving_name" name="receiverName" type="text" value="${sessionScope.member.name}" autocomplete="off">
                                                 </div>
                                             </div>
                                             <div class="detail">
                                                 <span class="th">수령인 연락처</span>
                                                 <div class="td_phone">
                                                     <div>
-                                                        <select id="receiving_phone1" name="receiver_phone1">
+                                                        <select id="receiving_phone1" name="receiverPhone1">
                                                             <option value="010">010</option>
                                                             <option value="011">011</option>
                                                             <option value="016">016</option>
@@ -117,11 +117,11 @@
                                                     </div>
                                                     <span class="d">-</span>
                                                     <div>
-                                                        <input type="phone" maxlength="4" id="receiving_phone2" name="receiver_phone2" value="" autocomplete="off">
+                                                        <input type="phone" maxlength="4" id="receiving_phone2" name="receiverPhone2" value="" autocomplete="off" pattern="[0-9]{4}">
                                                     </div>
                                                     <span class="d">-</span>
                                                     <div>
-                                                        <input type="phone" maxlength="4" class="form-control form-control-small" id="receiving_phone3" name="receiver_phone3" value="" autocomplete="off">
+                                                        <input type="phone" maxlength="4" class="form-control form-control-small" id="receiving_phone3" name="receiverPhone3" value="" autocomplete="off" pattern="[0-9]{4}">
                                                         <input type="hidden" id="receiver_phone" name="receiverPhone">
                                                     </div>
                                                 </div>
@@ -130,7 +130,8 @@
                                                 <span class="th">우편번호</span>
                                                 <div class="td">
                                                     <div class="find_address">
-                                                        <input type="text" maxlength="128" class="find" id="receiving_postcode" autocomplete="off" name="receiverZipcode" placeholder="주소 검색" readonly="" value="" onclick="showPostcode()">
+                                                        <input type="text" maxlength="128" class="find" id="receiving_postcode" autocomplete="off" name="receiverZipcode"
+                                                               id="find_addr" placeholder="주소 검색" readonly value="" onclick="showPostcode()">
                                                         <span class="empty"></span>
                                                         <button type="button" class="btn btn-light btn-sm" onclick="showPostcode()">찾기</button>
                                                         <%--  <button type="button" class="btn btn-outline-secondary">찾기</button> --%>
@@ -157,7 +158,7 @@
                                             </div>
                                             <div class="detail">
                                                 <span class="th">발신인</span>
-                                                <span class="td_unknown"><input type="text" maxlength="64" autocomplete="off" id="sender_name" name="senderName" value="Yuna">
+                                                <span class="td_unknown"><input type="text" maxlength="64" autocomplete="off" id="sender_name" name="senderName" value="${sessionScope.member.name}">
                                                     <span class="unknow_noti">
                                                         <input type="checkbox" name="sender_unknown" id="sender_unknown" class="lb_unknow_name_new" onchange="unknownName()">
                                                         <label for="sender_unknown">익명으로 보내기</label>
@@ -180,114 +181,27 @@
                                         </div>
                                         <!-- 주의사항-->
                                         <span class="unknow_txt modify_0724">
-                                                <span class="l"><i>*</i><b>익명으로 보내기를 선택할 경우, 주의할 것이 있어요.</b>
-                                                    <br>보내는 분의 성함이 기재되지 않아 받는 분이 수령을 거부하기도 해요.<br>
-                                                    이 경우 환불이나 교환이 어려우니 꼭 확인하신 후 체크 부탁드릴게요.</span>
-                                                <span class="l"><i>*</i><b>토요일 수령 선택 시 주의사항</b>
-                                                    <br>토요일 수령을 선택하실 경우, 회사 주소는 배송이 어려워요.
-                                                    <br>자택이나 수령인이 직접 받으실 수 있는 주소지로 입력 부탁드릴게요.
-                                                </span>
+                                            <span class="l"><i>*</i><b>익명으로 보내기를 선택할 경우, 주의할 것이 있어요.</b>
+                                                <br>보내는 분의 성함이 기재되지 않아 받는 분이 수령을 거부하기도 해요.<br>
+                                                이 경우 환불이나 교환이 어려우니 꼭 확인하신 후 체크 부탁드릴게요.</span>
+                                            <span class="l"><i>*</i><b>토요일 수령 선택 시 주의사항</b>
+                                                <br>토요일 수령을 선택하실 경우, 회사 주소는 배송이 어려워요.
+                                                <br>자택이나 수령인이 직접 받으실 수 있는 주소지로 입력 부탁드릴게요.
                                             </span>
+                                        </span>
                                     </div>
-
-                                    <!-------------------------------------받는분이 입력하는 란----------------------------------------------------------------------->
-
-                                    <div class="role_tabpanel" tabindex="-1" role="tabpanel" id="sender_input" aria-labelledby="tabpanel_address_to">
-                                        <div>
-                                            <div class="unknow_address">
-                                                <h4 class="tit">받는 분의 주소를 모르셔도 괜찮아요.<br>
-                                                    kukka가 대신 여쭤볼게요 :-)</h4>
-                                                <ul class="noti_txt">
-                                                    <li class="color_red">기재해주신 연락처로 배송지를 입력할 수 있는 URL이 발송됩니다.</li>
-                                                    <li class="color_red">입력 기간은 3일이며, 기한 내에 입력이 완료되지 않으면 주문은 취소됩니다.</li>
-                                                    <li class="color_red">혹시 오류로 인해 문자가 가지 않는다면 [마이페이지-주문내역]에서 [다시 전송] 버튼을 눌러 주세요.</li>
-                                                    <li class="color_red">받아보시는 분의 주소는 기존 배송지 목록에 추가되지 않습니다.</li>
-                                                </ul>
-                                            </div>
-                                            <%--                                                <div>--%>
-                                            <%--                                                    <ul class="list-unstyled m-0 p-0 text-secondary">--%>
-                                            <%--                                                        <li class="d-flex py-2">--%>
-                                            <%--                                                            <div class="col-3">수령인 이름</div>--%>
-                                            <%--                                                            <div class="col-9">--%>
-                                            <%--                                                                <input class="w-100 border border-secondary text-secondary" type="text" value="권유나">--%>
-                                            <%--                                                            </div>--%>
-                                            <%--                                                        </li>--%>
-                                            <%--                                                        <li class="d-flex py-2">--%>
-                                            <%--                                                            <div class="col-3">수령인 연락처</div>--%>
-                                            <%--                                                            <div class="col-9 d-flex">--%>
-                                            <%--                                                                <select id="receiving_phone1_gift" name="receiving_phone1_gift" class="border border-secondary text-secondary" style="flex: 0 0 auto; width: 32%;">--%>
-                                            <%--                                                                    <option value="010">010</option>--%>
-                                            <%--                                                                    <option value="011">011</option>--%>
-                                            <%--                                                                    <option value="016">016</option>--%>
-                                            <%--                                                                    <option value="017">017</option>--%>
-                                            <%--                                                                    <option value="018">018</option>--%>
-                                            <%--                                                                    <option value="019">019</option>--%>
-                                            <%--                                                                </select>--%>
-                                            <%--                                                                <span class="text-center" style="flex: 0 0 auto; width:2%;">-</span>--%>
-                                            <%--                                                                <input class="border border-secondary text-secondary" style="flex: 0 0 auto; width: 32%;" type="text">--%>
-                                            <%--                                                                <span class="text-center" style="flex: 0 0 auto; width:2%;">-</span>--%>
-                                            <%--                                                                <input class="border border-secondary text-secondary" style="flex: 0 0 auto; width: 32%;" type="text">--%>
-                                            <%--                                                            </div>--%>
-                                            <%--                                                        </li>--%>
-                                            <%--                                                    </ul>--%>
-                                            <%--                                                </div>--%>
-                                            <table class="address_input_table">
-                                                <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="detail">
-                                                            <span class="th">수령인 이름</span>
-                                                            <span class="td">
-                                                                        <input maxlength="255" id="receiving_name_gift" name="receiving_name_gift" type="text" value="권유나" autocomplete="off">
-                                                            </span>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="detail">
-                                                            <span class="th">수령인 연락처</span>
-                                                            <div class="td_phone">
-                                                                <div>
-                                                                    <select id="receiving_phone1_gift" name="receiving_phone1_gift">
-                                                                        <option value="010">010</option>
-                                                                        <option value="011">011</option>
-                                                                        <option value="016">016</option>
-                                                                        <option value="017">017</option>
-                                                                        <option value="018">018</option>
-                                                                        <option value="019">019</option>
-                                                                    </select>
-                                                                </div>
-                                                                <span class="d">-</span>
-                                                                <div id="id_form-0-phone_2_form-group">
-                                                                    <input type="text" maxlength="4" id="receiving_phone2_gift" name="receiving_phone2_gift" value="5847" autocomplete="off">
-                                                                </div>
-                                                                <span class="d">-</span>
-                                                                <div>
-                                                                    <input type="text" maxlength="4" class="form-control form-control-small" id="receiving_phone3_gift" name="receiving_phone3_gift" value="1880" autocomplete="off">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
+                                        <div class="complete">
+                                            <button type="submit" class="info_btn next" id="purchase_submit">
+                                                <span>결제하기</span>
+                                            </button>
+                                            <button type="button" class="info_btn back" onclick="history.back()">
+                                                <span>이전 단계로</span>
+                                            </button>
                                         </div>
-                                    </div>
-
-                                    <!-- 여기 -->
-                                </div>
+                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="complete">
-                    <button type="button" class="info_btn next" id="purchase_submit" onclick="submitForm(this.form)">
-                        <span>결제하기</span>
-                    </button>
-                    <button type="button" class="info_btn back" onclick="history.back()">
-                        <span>이전 단계로</span>
-                    </button>
                 </div>
             </div>
         </form>
@@ -306,6 +220,12 @@
                                 <span class="th">수령인 이름</span>
                                 <span class="td">
                                     <input name="receiving_name" id="find-name" type="text" readonly>
+                                </span>
+                            </div>
+                            <div class="detail">
+                                <span class="th">수령인 연락처</span>
+                                <span class="td">
+                                    <input name="receiving_phone" id="find-phone" type="text" readonly>
                                 </span>
                             </div>
                             <div class="detail">
@@ -345,7 +265,6 @@
         </div>
     </div>
 
-
     <!-- 주소지 없을때의 Modal -->
     <div class="modal fade" id="noneModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
@@ -363,28 +282,9 @@
             </div>
         </div>
     </div>
-
-
-
 </div>
 <%@ include file="../main/footer.jspf" %>
 <script>
-    //라디오버튼 화면 변경
-    window.onload = function () {
-        addDelivery();
-    }
-    function addDelivery() {
-        document.getElementById('sender_input').style.display = 'none';
-        document.getElementById('input_info').style.display = 'block';
-    }
-    function addSender() {
-        document.getElementById('input_info').style.display = 'none';
-        document.getElementById('sender_input').style.display = 'block';
-    }
-    function findDelivery() {
-        document.getElementById('sender_input').style.display = 'none';
-        document.getElementById('input_info').style.display = 'block';
-    }
     function unknownName() {
         let unknown = document.getElementById('sender_unknown');
         if (unknown.checked == true) {
@@ -438,26 +338,47 @@
     }
     function selectAddress() {
         let name = document.getElementById('find-name').value;
+        let phone = document.getElementById('find-phone').value;
         let zip = document.getElementById('find-zipcode').value;
         let addr = document.getElementById('find-address').value;
-        let addrDeatil = document.getElementById('find-address-details').value;
+        let addrDetail = document.getElementById('find-address-details').value;
         let addrExtra = document.getElementById('find-address-extra').value;
+
+        let phone1 = phone.substr(0,3);
+        let phone2 = phone.substr(4,4);
+        let phone3 = phone.substr(9,4);
 
         document.getElementById('receiving_name').value = name;
         document.getElementById('receiving_postcode').value = zip;
         document.getElementById('receiving_address_1').value = addr;
-        document.getElementById('receiving_address_2').value = addrDeatil;
+        document.getElementById('receiving_address_2').value = addrDetail;
         document.getElementById('receiving_address_3').value = addrExtra;
+        document.getElementById('receiving_phone1').value = phone1;
+        document.getElementById('receiving_phone2').value = phone2;
+        document.getElementById('receiving_phone3').value = phone3;
+
         document.getElementById('close-button').click();
 
     }
-    function submitForm(frm) {
-         let f = document.frm;
-         let phone = f.receiver_phone1.value + '-' + f.receiver_phone2.value + '-' + f.receiver_phone3.value;
-         document.getElementById('receiver_phone').value = phone;
-        //컨트롤러 이동
-        f.action = "/order/payment";
-        f.submit();
+    function submitForm() {
+
+        if (!document.frm.receiverName.value) {
+            alert("수령인 이름을 입력해주세요.");
+            frm.receiverName.focus();
+            return false;
+        } else if (!document.frm.receiverPhone1.value || !document.frm.receiverPhone2.value || !document.frm.receiverPhone3.value) {
+            alert("수령인 연락처를 입력해주세요.");
+            frm.receiverPhone2.focus();
+            return false;
+        } else if (!document.frm.receiverAddrBase.value || !document.frm.receiverAddrDetail.value) {
+            alert("수령인 주소를 입력해주세요.");
+            frm.receiverAddrBase.focus();
+            return false;
+        } else {
+            let f = document.frm;
+                let phone = f.receiverPhone1.value + '-' + f.receiverPhone2.value + '-' + f.receiverPhone3.value;
+                document.querySelector('#receiver_phone').value = phone;
+        }
     }
 </script>
 </body>

@@ -37,8 +37,8 @@
         <!-- 아이디 검색 -->
         <div class="col-3 d-flex align-items-center">
             <input type="text" class="rounded-3 border-1 p-2" aria-label="searchId"
-                   name="searchId" id="searchId"
-                   onkeypress="if(event.keyCode === 13) searchCoupon(null, this.value)">
+                   name="searchId" id="searchId" placeholder="아이디로 검색"
+                   onkeypress="if(event.keyCode === 13) searchCoupon(null, this.value)" autocomplete="off">
             <button class="border-1 rounded-3 btn btn-secondary p-2 flex-grow-1 shadow-none"
                     onclick="searchCoupon()">
                 <i class="fa fa-search"></i>
@@ -70,17 +70,17 @@
             <div class="modal-body d-flex flex-column">
 
                 <div class="form-floating mb-3">
-                    <input class="form-control" type="text" name="name" id="name" placeholder="Name">
+                    <input class="form-control" type="text" name="name" id="name" placeholder="Name" autocomplete="off">
                     <label for="name">Name</label>
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input class="form-control" type="text" name="memberId" id="memberId" placeholder="Member Id">
+                    <input class="form-control" type="text" name="memberId" id="memberId" placeholder="Member Id" autocomplete="off">
                     <label for="memberId">Member Id</label>
                 </div>
 
                 <div class="form-floating">
-                    <input class="form-control" type="number" name="point" id="point" placeholder="Point">
+                    <input class="form-control" type="number" name="point" id="point" placeholder="Point" autocomplete="off">
                     <label for="point">Point</label>
                 </div>
 
@@ -250,7 +250,7 @@
             if (this.idx) {
                 this.$name.innerText = this.name;
                 this.$memberId.innerText = this.memberId;
-                this.$point.innerText = this.point;
+                this.$point.innerText = parseInt(this.point).toLocaleString('ko-KR');
             } else {
                 this.idx = result.idx;
                 this.cdate = new Date(result.cdate);

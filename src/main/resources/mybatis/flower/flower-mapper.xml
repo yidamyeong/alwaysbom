@@ -32,6 +32,70 @@
     </select>
 
 
+    <!-- (R) 최근 업로드된 4개의 상품 조회 -->
+    <select id="findRecent4" resultType="com.flo.alwaysbom.flower.vo.FlowerVo">
+        SELECT  ROWNUM, F.*
+        FROM    (
+                SELECT *
+                FROM FLOWER
+                WHERE DEL_STATUS IS NULL
+                ORDER BY IDX DESC
+                ) F
+        <![CDATA[
+        WHERE   ROWNUM < 5
+        ]]>
+    </select>
+
+
+    <!-- (R) 꽃다발 베스트 리뷰 찾기 -->
+    <select id="findBestReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        SELECT  RN, FF.*
+        FROM    (
+                SELECT  ROWNUM RN, F.*
+                FROM    (
+                        SELECT   *
+                        FROM     REVIEW
+                        WHERE    CATEGORY = '꽃다발'
+                        ORDER BY LIKE_COUNT DESC
+                        ) F
+                ) FF
+        WHERE   RN BETWEEN 1 AND 10
+    </select>
+
+
+    <!-- (R) 해당 상품 인덱스의 리뷰 찾기 -->
+    <select id="findReviewByIdx" parameterType="Integer" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        SELECT  *
+        FROM    REVIEW
+        WHERE   CATEGORY = '꽃다발' AND FLOWER_IDX = #{idx}
+        ORDER BY REG_DATE DESC
+    </select>
+
+
+    <!-- (R) 현재 로그인한 유저가 해당 상품의 리뷰를 쓸 수 있는지 확인하는 쿼리 -->
+    <select id="findAvailableOitemToReview" parameterType="map" resultType="com.flo.alwaysbom.order.vo.OitemVo">
+        SELECT REV.*
+        FROM
+            (
+                SELECT OITEM.*
+                FROM OITEM
+                         LEFT JOIN ORDERS
+                                   ON ORDERS_IDX = ORDERS.IDX
+                WHERE REVIEW_IDX IS NULL
+                  AND CATEGORY = '꽃다발'
+                  AND ORDERS_IDX IN
+                      (
+                          SELECT IDX
+                          FROM ORDERS
+                          WHERE MEMBER_ID = #{memberId} AND STATUS = '배송완료'
+                      )
+            ) REV
+                LEFT JOIN FLOWER F
+                          ON REV.NAME = F.NAME
+        WHERE F.IDX = #{flowerIdx}
+    </select>
+
+
     <!-- (U) 관리자가 상품 수정 -->
     <update id="updateFlower" parameterType="com.flo.alwaysbom.flower.vo.FlowerVo">
         UPDATE  FLOWER
@@ -55,5 +119,13 @@
         SET     DEL_STATUS = 1
         WHERE   IDX = #{idx}
     </update>
+
+
+    <!-- 이름으로 찾기 -->
+    <select id="findByName" parameterType="string" resultType="com.flo.alwaysbom.flower.vo.FlowerVo">
+        SELECT *
+        FROM FLOWER
+        WHERE NAME = #{name}
+    </select>
 
 </mapper>

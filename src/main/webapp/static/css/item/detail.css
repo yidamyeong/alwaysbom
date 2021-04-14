@@ -10,16 +10,6 @@
     border: none;
 }
 
-/* 메인 컨테이너 */
-#container {
-    background-color: #ffffff;
-}
-
-/* 썸네일-주문정보 */
-.thumb-order {
-    margin-bottom: 5em;
-}
-
 /* 유저 이동경로 */
 #bread-nav {
     display: flex;
@@ -34,20 +24,8 @@
     text-decoration: underline;
     color: #4D4D4D;
 }
-.scale-up:hover {
-    transform: scale(1.05);
-    transition-duration: 0.5s;
-}
-
-/* 썸네일 이미지 */
-.thumbnails {
-    width: 45%;
-}
 
 /* 주문 정보 */
-.order-info {
-    width: 46.5%;
-}
 .subheader {
     font-size: 16px;
     font-weight: 300;
@@ -76,11 +54,14 @@
     border-top: 1px solid #d4d4d4;
     border-bottom: 1px solid #d4d4d4;
 }
-.point-color {
-    color: #7DAF3B;
+.fd-announcements {
+    font-size: 18px;
+    border-top: 1px solid #d4d4d4;
 }
-.inputs-wrap {
-    font-size: 19px;
+
+.fd-announce {
+    font-size: 18px;
+    border-bottom: 1px solid #d4d4d4;
 }
 .count i {
     color: #c0c0c0;
@@ -90,9 +71,6 @@
     color: #9a9a9a;
     transition-duration: 0.3s;
     cursor: pointer;
-}
-.fw500 {
-    font-weight: 500;
 }
 .form-check-label {
     font-size: 15px;
@@ -115,7 +93,7 @@
 .main-button {
     width: 49%;
     border-radius: 10px;
-    background-color: #90c757;
+    background-color: #ffc107;
 }
 .datepicker {
     border: 1px solid #dbdbdb;
@@ -154,8 +132,14 @@ input[type=radio]:checked + .btn-show {
 #review-area {
     margin : 4em 0;
 }
-.c-666 {
-    color: #666666;
+#review-area a, #review-area a:hover {
+    color: #ffc107;
+}
+.c-star {
+    color: #ffdc4d;
+}
+.ls-narrower {
+    letter-spacing: -1.3px;
 }
 
 /* 리뷰 카테고리(꽃다발 베스트리뷰/이 상품의 리뷰) */
@@ -164,7 +148,7 @@ input[type=radio]:checked + .btn-show {
 }
 .review-category {
     border-bottom: 1px solid #dbdbdb;
-    margin: 2em 0;
+    margin-top: 2em;
 }
 .btn-rev {
     font-size: 20px;
@@ -177,6 +161,21 @@ input[type=radio]:checked + .btn-rev {
     border-bottom: 3px solid #030303;
     color: #030303;
     font-weight: 500;
+}
+
+
+/* 베스트 리뷰 게시판 */
+.review-row:hover {
+    background-color: #f4f4f4;
+    cursor: pointer;
+}
+
+/* 별점주기 버튼 */
+.btn-radio {
+    cursor: pointer;
+}
+.btn-radio:hover {
+    color: #ffcc3c;
 }
 
 

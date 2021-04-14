@@ -12,29 +12,56 @@
         WHERE RN BETWEEN 1 and 10
     </select>
 
+
     <select id="allReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="map">
         SELECT *
         FROM REVIEW
         <where>
-            <if test="category != null">
-                CATEGORY = #{category}
-                <if test="idx != null">
-                    AND SUBS_IDX = #{IDX} OR FLOWER_IDX = #{IDX} OR FCLASS_IDX = #{IDX} OR PRODUCT_IDX = #{IDX}
-                </if>
+            <if test="category == '클래스'">
+                CATEGORY = #{category} AND FCLASS_IDX = #{idx}
+            </if>
+            <if test="category == '꽃다발'">
+                CATEGORY = #{category} AND FLOWER_IDX = #{idx}
+            </if>
+            <if test="category == '소품'">
+                CATEGORY = #{category} AND PRODUCT_IDX = #{idx}
+            </if>
+            <if test="category == '정기구독'">
+                CATEGORY = #{category} AND SUBS_IDX = #{idx}
             </if>
         </where>
         ORDER BY REG_DATE DESC
+     <!--   SELECT *
+        FROM (
+        SELECT ROW_NUMBER() over (ORDER BY STAR DESC) as RN, I.*
+        FROM REVIEW I
+        <where>
+        <if test="category == '클래스'">
+            CATEGORY = #{category} AND FCLASS_IDX = #{idx}
+        </if>
+        <if test="category == '꽃다발'">
+            CATEGORY = #{category} AND FLOWER_IDX = #{idx}
+        </if>
+        <if test="category == '소품'">
+            CATEGORY = #{category} AND PRODUCT_IDX = #{idx}
+        </if>
+        <if test="category == '정기구독'">
+            CATEGORY = #{category} AND SUBS_IDX = #{idx}
+        </if>
+        </where>
+        )
+        WHERE RN BETWEEN 1 and 10-->
     </select>
     <select id="cateBestReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="string">
         SELECT *
         FROM (
                  SELECT ROW_NUMBER() over (ORDER BY STAR DESC) as RN, I.*
                  FROM REVIEW I
+        <if test="category != null">
+            WHERE CATEGORY = #{category}
+        </if>
              )
         WHERE
-        <if test="category != null">
-            CATEGORY = #{category} AND
-        </if>
         RN BETWEEN 1 and 10
     </select>
     <select id="cateAllReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="string">
@@ -100,6 +127,98 @@
     <update id="likeUpdate" parameterType="map">
         UPDATE REVIEW SET LIKE_COUNT = #{review}
         WHERE IDX = #{reviewIdx}
+    </update>
+
+    <update id="addIdx" parameterType="int">
+        UPDATE REVIEW SET addFloIdx = #{fIdx}
+        WHERE IDX = #{reviewIdx}
+    </update>
+
+    <insert id="addFloIdx" parameterType="com.flo.alwaysbom.community.review.vo.ReviewVo">
+        INSERT INTO REVIEW (IDX, CATEGORY, FLOWER_IDX, NAME, MEMBER_ID, IMAGE, CONTENT, REG_DATE, STAR, LIKE_COUNT)
+        VALUES (NULL, #{category},#{flowerIdx}, #{name}, #{memberId}, #{image}, #{content}, SYSDATE, #{star}, 0)
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT REVIEW_SEQ.currval from DUAL
+        </selectKey>
+    </insert>
+    <insert id="addSubIdx" parameterType="com.flo.alwaysbom.community.review.vo.ReviewVo" useGeneratedKeys="true" keyProperty="idx">
+        INSERT INTO REVIEW (IDX, CATEGORY, SUBS_IDX, NAME, MEMBER_ID, IMAGE, CONTENT, REG_DATE, STAR, LIKE_COUNT)
+        VALUES (NULL, #{category}, #{subsIdx},#{name}, #{memberId}, #{image}, #{content}, SYSDATE, #{star}, 0)
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT REVIEW_SEQ.currval from DUAL
+        </selectKey>
+    </insert>
+    <insert id="addProIdx" parameterType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        INSERT INTO REVIEW (IDX, CATEGORY, PRODUCT_IDX, NAME, MEMBER_ID, IMAGE, CONTENT, REG_DATE, STAR, LIKE_COUNT)
+        VALUES (NULL, #{category}, #{productIdx},#{name}, #{memberId}, #{image}, #{content}, SYSDATE, #{star}, 0)
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT REVIEW_SEQ.currval from DUAL
+        </selectKey>
+    </insert>
+    <insert id="addclsIdx" parameterType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        INSERT INTO REVIEW (IDX, CATEGORY, FCLASS_IDX, NAME, MEMBER_ID, IMAGE, CONTENT, REG_DATE, STAR, LIKE_COUNT)
+        VALUES (NULL, #{category}, #{fclassIdx},#{name}, #{memberId}, #{image}, #{content}, SYSDATE, #{star}, 0)
+        <selectKey keyProperty="idx" resultType="int" order="AFTER">
+            SELECT REVIEW_SEQ.currval from DUAL
+        </selectKey>
+    </insert>
+    <update id="reviewCheck" parameterType="map">
+        UPDATE OITEM
+        SET REVIEW_CHECK = 1, REVIEW_IDX = #{reviewIdx}
+        WHERE IDX = #{idx}
+    </update>
+    <update id="memberPoint" parameterType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        UPDATE MEMBER
+        <if test="image != null">
+            SET POINT = POINT+200
+        </if>
+        <if test="image == null">
+            SET POINT = POINT+300
+        </if>
+        WHERE ID = #{memberId}
+    </update>
+    <update id="updateReview" parameterType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        UPDATE REVIEW
+        SET NAME = #{name}, IMAGE = #{image}, CONTENT = #{content}
+        WHERE IDX = #{idx}
+    </update>
+
+    <select id="findByIdx" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="int">
+        SELECT * FROM REVIEW WHERE IDX = #{reviewIdx}
+    </select>
+
+    <update id="oitemPick" parameterType="int">
+        UPDATE OITEM
+           SET REVIEW_CHECK = 0
+        WHERE REVIEW_IDX = #{idx}
+    </update>
+    <update id="oclassPick" parameterType="int">
+        UPDATE OCLASS
+        SET REVIEW_CHECK = 0, REVIEW_IDX = NULL
+        WHERE REVIEW_IDX = #{idx}
+    </update>
+
+    <update id="imageHas" parameterType="string">
+        UPDATE MEMBER
+        SET POINT = POINT-300
+        WHERE ID = #{getMemberId}
+    </update>
+    <update id="imageDontHas" parameterType="string">
+        UPDATE MEMBER
+        SET POINT = POINT-200
+        WHERE ID = #{getMemberId}
+    </update>
+
+    <!--fclass 리뷰-->
+    <select id="findFclass" parameterType="map" resultType="com.flo.alwaysbom.fclass.vo.OclassVo">
+        SELECT * FROM OCLASS
+        WHERE MEMBER_ID = #{id} AND REVIEW_CHECK = #{check}
+    </select>
+
+    <update id="classCheck" parameterType="int">
+        UPDATE OCLASS
+        SET REVIEW_CHECK = 1, REVIEW_IDX = #{reviewIdx}
+        WHERE IDX = #{idx}
     </update>
 <!--    <select id="utilReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="map">-->
 <!--        SELECT *-->

@@ -1,11 +1,11 @@
 /* 배너 관련 */
 .banner-wrap {
-    width: 100vw;
+    min-width: 1280px;
+    width: 100%;
     background-color: #efeeeb;
 }
 .banner-text {
     padding: 0 3em;
-    /*border: 1px solid blue;*/
 }
 .banner-title {
     font-size: 30px;
@@ -19,11 +19,21 @@
 .w-1280 {
     width: 1280px;
 }
-.fw500 {
+.fw-500 {
     font-weight: 500;
 }
 .mb-8em {
     margin-bottom: 8em;
+}
+.ls-narrower {
+    letter-spacing: -0.1px;
+}
+.cursor-pointer {
+    cursor: pointer;
+}
+.scale-up:hover {
+    transform: scale(1.05);
+    transition-duration: 0.6s;
 }
 
 /* 정렬 순서 */
@@ -59,7 +69,6 @@
 
 .thumbnails {
     border-radius: 12px;
-    /*border: 2px solid #303030;*/
 }
 
 .p-subtitle {
@@ -67,11 +76,6 @@
     font-weight: 500;
     color: #222222;
     padding-top: 2em;
-}
-
-.scale-up:hover {
-    transform: scale(1.05);
-    transition-duration: 0.6s;
 }
 .subheader {
     padding-top: 0.3em;

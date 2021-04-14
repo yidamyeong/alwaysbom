@@ -1,11 +1,13 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <!DOCTYPE HTML>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>리뷰게시판</title>
     <%@ include file="../main/import.jspf"%>
+    <link rel="stylesheet" href="/static/css/community/review/review.css">
     <style>
 
         ul, li{
@@ -28,11 +30,8 @@
             line-height:30px;
         }
 
-        #ulTable, #ulTablebar {margin-top:10px;}
-
-
         #ulTablebar > li:first-child > ul > li {
-            background-color:#c9c9c9;
+            background-color:black;
             font-weight:bold;
             text-align:center;
         }
@@ -49,15 +48,39 @@
         #ulTable > li > ul > button > li, #ulTablebar > li > ul > li {
             float:left;
             font-size:10pt;
-            border-bottom:1px solid silver;
+            border-bottom:2px solid silver;
             vertical-align:baseline;
         }
 
-        #ulTable > li > ul > button > li:first-child, #ulTablebar > li > ul > li:first-child               {width:10%;} /*No 열 크기*/
-        #ulTable > li > ul > button > li:first-child +li, #ulTablebar > li > ul > li:first-child +li           {width:40%;} /*제목 열 크기*/
-        #ulTable > li > ul > button > li:first-child +li+li, #ulTablebar > li > ul > li:first-child +li+li        {width:20%;} /*작성일 열 크기*/
-        #ulTable > li > ul > button > li:first-child +li+li+li, #ulTablebar > li > ul > li:first-child +li+li+li     {width:20%;} /*작성자 열 크기*/
-        #ulTable > li > ul > button > li:first-child +li+li+li+li, #ulTablebar > li > ul > li:first-child +li+li+li+li{width:10%;} /*조회수 열 크기*/
+        .titleBtn {
+            border: 1px solid #939393;
+            background-color: black;
+            border-radius: 0;
+            padding: 10px 0 10px 0;
+        }
+        .titleBtn:hover {
+            background-color: #323232;
+            text-decoration-color: black;
+        }
+        .reviewCategory radio {
+            background-color: #dbd8d8; !important;
+        }
+
+
+        #ulTable > li > ul > button > li:first-child, #ulTablebar > li > ul > li:first-child              /* {width:10%; height: 40px;}*/ /*No 열 크기*/
+        #ulTable > li > ul > button > li:first-child +li, #ulTablebar > li > ul > li:first-child +li           /*{width:40%; height: 40px;}*/ /*제목 열 크기*/
+        #ulTable > li > ul > button > li:first-child +li+li, #ulTablebar > li > ul > li:first-child +li+li       /* {width:20%; height: 40px;}*/ /*작성일 열 크기*/
+        #ulTable > li > ul > button > li:first-child +li+li+li, #ulTablebar > li > ul > li:first-child +li+li+li     /*{width:20%; height: 40px;}*/ /*작성자 열 크기*/
+        #ulTable > li > ul > button > li:first-child +li+li+li+li, #ulTablebar > li > ul > li:first-child +li+li+li+li/*{width:10%; height: 40px;}*/ /*조회수 열 크기*/
+
+       /* #ulTable > li > ul > button > li:first-child               {width:10%; height: 40px; background-color: whitesmoke;} !*No 열 크기*!
+        #ulTable > li > ul > button > li:first-child +li           {width:40%; height: 40px; background-color: whitesmoke;} !*제목 열 크기*!
+        #ulTable > li > ul > button > li:first-child +li+li        {width:20%; height: 40px; background-color: whitesmoke;} !*작성일 열 크기*!
+        #ulTable > li > ul > button > li:first-child +li+li+li     {width:20%; height: 40px; background-color: whitesmoke;} !*작성자 열 크기*!
+        #ulTable > li > ul > button > li:first-child +li+li+li+li  {width:10%; height: 40px; background-color: whitesmoke;} *//*조회수 열 크기*/
+  /*      .accordion-button{
+            color: whitesmoke;
+        }*/
         .headacco {
             padding: 0px;
         }
@@ -65,185 +88,276 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
+        $(function (){
+            let cate = '${param.category}';
+            if(cate == '정기구독'){
+                document.querySelector("input[type=radio].subsCate").checked = true;
+                let checkedValue = document.querySelector('input[name="subsCate"]:checked').value;
+            }
+            if(cate == '꽃다발'){
+                document.querySelector("input[type=radio].flowerCate").checked = true;
+                let checkedValue = document.querySelector('input[name="flowerCate"]:checked').value;
+            }
+            if(cate == '클래스'){
+                document.querySelector("input[type=radio].fClassCate").checked = true;
+                let checkedValue = document.querySelector('input[name="fClassCate"]:checked').value;
+            }
+            if(cate == '소품샵'){
+                document.querySelector("input[type=radio].productCate").checked = true;
+                let checkedValue = document.querySelector('input[name="productCate"]:checked').value;
+            }
+            if(cate == ''){
+                document.querySelector("input[type=radio]").checked = true;
+                let checkedValue = document.querySelector('input[name="allReviewCate"]:checked').value;
+            }
 
+
+                // $("input:radio[name='allReviewCate']:radio[value='']").prop('checked', true);
+                // let checkedValue = document.querySelector('input[id="allReviewCate"]:checked').val;
+                // document.getElementsBy('allReviewCate').checked = true;
+            // document.querySelector("input[type=radio].star"+numStar).checked = true;
+            // let checkedValue = document.querySelector('input[name="comment"]:checked').value;
+        });
     </script>
 </head>
 <body>
 <%@ include file="../main/header.jspf" %>
-<div class="d-flex justify-content-center">
-    <div id="container">
-       <div id="mainWrapper">
+<div id="container" class="mx-auto">
+<%--    <div class="fs-2 mt-5 mb-3">
+        리뷰게시판
+    </div>--%>
+
+    <!-- 카테고리 탭 (라디오버튼) -->
+<%--    <div class="d-flex align-items-baseline review-category col-12 justify-content-around">
+        <label>
+            <input type="radio" name="reviewCategory" class="d-none" checked="" onclick="location.href='/community/goReview'">
+            <span class="d-block text-center py-3 px-5 btn-rev">전체</span>
+        </label>
+        <label>
+            <input type="radio" name="reviewCategory" class="d-none" onclick="switchCategory('#bestReview', '#thisReview')">
+            <span class="d-block text-center py-3 px-5 btn-rev">꽃 정기구독</span>
+        </label>
+        <label>
+            <input type="radio" name="reviewCategory" class="d-none" onclick="switchCategory('#bestReview', '#thisReview')">
+            <span class="d-block text-center py-3 px-5 btn-rev">꽃다발</span>
+        </label>
+        <label>
+            <input type="radio" name="reviewCategory" class="d-none" onclick="switchCategory('#bestReview', '#thisReview')">
+            <span class="d-block text-center py-3 px-5 btn-rev">소품샵</span>
+        </label>
+    </div> --%><!-- 카테고리 탭 닫기 -->
+    <!-- 검색 폼 영역 -->
+    <div class="nav">
+    <div class="col d-flex col-8 fs-2 mt-5 mb-3">
+        리뷰게시판
+    </div>
+
+    <div class="col d-flex justify-content-end">
+
+        <form id="review-form" class="d-flex" method="post">
             <ul>
-                <!-- 게시판 제목 -->
-                <li>리뷰 게시판</li>
-                <!-- 게시판 목록  -->
-                <li>
-                    <ul class="nav nav-pills nav-justified">
-                        <li class="nav-item">
-                            <a href="/community/goReview">전체</a>
-                        </li>
-                        <li class="nav-item">
-<%--                            <a href="#" onclick='goAllList("best", "정기구독")'>정기구독</a>--%>
-                            <a href="#" onclick='goCateBest("정기구독")'>정기구독</a>
-                        </li>
-                        <li class="nav-item">
-<%--                            <a href="#" onclick='goAllList("best", "꽃다발")'>꽃다발</a>--%>
-                            <a href="#" onclick='goCateBest("꽃다발")'>꽃다발</a>
-                        </li>
-                        <li class="nav-item">
-<%--                            <a href="#" onclick='goAllList("best", "클래스")'>클래스</a>--%>
-                            <a href="#" onclick='goCateBest("클래스")'>클래스</a>
-                        </li>
-                        <li class="nav-item">
-<%--                            <a href="#" onclick='goAllList("best", "소품샵")'>소품샵</a>--%>
-                            <a href="#" onclick='goCateBest("소품샵")'>소품샵</a>
-                        </li>
-                        <!-- 검색 폼 영역 -->
-                        <form class="d-flex">
-                            <li id='liSearchOption' class="col list-group list-group-horizontal nav-item">
-                                <div class="row">
-                                    <select id='selSearchOption' name="opt">
-                                        <option value='S'>전체</option>
-                                    </select>
-<%--                                    <input id='txtKeyWord' type="text" name="searchtxt" value=""/>
-                                    <input type='button' value='검색'/>--%>
-                                </div>
-                                <div class="row mx-3">
-                                <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search">
-                                </div>
-                                <div class="row">
-                                    <button class="btn btn-outline-success" type="button" onclick="goSearch(this.form)">검색</button>
-                                </div>
-                            </li>
-                        </form>
-                    </ul>
-                    <ul class="nav justify-content-around reviewBox" id="review-bar">
-                        <li class="nav-item-3">
-                            <a class="nav-link" id="${param.category}" href="#" onclick='goBestList("best", "${param.category}")'>베스트 리뷰</a>
-                        </li>
-                        <li class="nav-item-3">
-                            <a class="nav-link" id="${param.category}" href="#" onclick='goAllList("allList", "${param.category}")'>전체리뷰</a>
-                        </li>
-                    </ul>
-                    <ul id ="ulTablebar">
-                        <li>
-                            <ul>
-                                <li>별점</li>
-                                <li>제목</li>
-                                <li>작성일</li>
-                                <li>작성자</li>
-                                <li>좋아요</li>
-                            </ul>
-                        </li>
-                    </ul>
-                        <!-- 게시물이 출력될 영역 -->
-                    <ul id="ulTable" class="accordion">
-                        <c:forEach var="bestAllList" items="${bestRList}">
-                        <li class='allBoxes accordion-item'>
-                            <ul id="head${bestAllList.idx}" class="accordion-header headacco">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#col${bestAllList.idx}" aria-expanded="false" aria-controls="col${bestAllList.idx}">
-                                    <li class="text-center">
-                                        <div>
-                                            <c:if test="${bestAllList.star eq 5}">
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="fas fa-star text-warning"></i>
-                                            </c:if>
-                                            <c:if test="${bestAllList.star eq 4}">
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                            </c:if>
-
-                                            <c:if test="${bestAllList.star eq 3}">
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                            </c:if>
-                                            <c:if test="${bestAllList.star eq 2}">
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                            </c:if>
-                                            <c:if test="${bestAllList.star eq 1}">
-                                                <i class="fas fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                            </c:if>
-                                            <c:if test="${bestAllList.star eq 0}">
-                                                <i class="far fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                                <i class="far fa-star text-warning"></i>
-                                            </c:if>
-                                        </div>
-                                    </li>
-                                    <li class="text-center"><span>${bestAllList.name}</span></li>
-                                    <li class="text-center"><span>${bestAllList.regDate}</span></li>
-                                    <li class="text-center"><span>${bestAllList.memberId}</span></li>
-                                    <li class="text-center"><span>${bestAllList.likeCount}</span></li>
-                                </button>
-                            </ul>
-                            <div id="col${bestAllList.idx}" class="accordion-collapse collapse" aria-labelledby="head${bestAllList.idx}" data-bs-parent="#ulTable">
-                                <div class="accordion-body">
-                                    <div class="d-flex justify-content-center">
-                                        <p>${bestAllList.content}</p>
-                                    </div>
-
-                                    <div class="d-flex justify-content-center">
-                                        <c:if test="${not empty bestAllList.image}">
-                                            <div>
-                                                <img src="/static/upload/community/review/${bestAllList.image}" alt="아아아아악">
-                                            </div>
-                                        </c:if>
-                                    </div>
-                                        <div class="d-flex justify-content-end">
-                                            <c:if test="${bestAllList.hasReview}">
-                                            <button class="btn like"
-                                                    onclick="goLike('${member.id}', '${bestAllList.idx}')"><i class="fas fa-thumbs-up text-dark fa-2x"></i>
-                                            </button>
-                                            </c:if>
-                                            <c:if test="${!bestAllList.hasReview}">
-                                                <button class="btn like"
-                                                        onclick="goLike('${member.id}', '${bestAllList.idx}')"><i class="far fa-thumbs-up text-dark fa-2x"></i>
-                                                </button>
-                                            </c:if>
-                                        </div>
-                                    <div class="d-flex justify-content-center">
-                                        <c:if test="${member.id == bestAllList.memberId || member.id == 'xzllxz456@naver.com'}">
-                                                <button type="button" class="btn btn-secondary mx-2"
-                                                        onclick="goUpdate(this.form, ${bestAllList.idx})">수정
-                                                </button>
-                                                <button type="button" class="btn btn-outline-danger"
-                                                        onclick="goDelete(${bestAllList.idx})">삭제
-                                                </button>
-                                        </c:if>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        </c:forEach>
-                    </ul>
-                </li>
-                <li>
+                <li id='liSearchOption' class="col list-group list-group-horizontal nav-item pt-5">
+                    <div class="row mx-3">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search" autocomplete="off">
+                    </div>
+                    <div class="">
+                        <button class="btn btn-outline-dark" type="button" onclick="goSearch(this.form)">검색</button>
+                    </div>
                 </li>
             </ul>
-           <button id="searchMoreNotify" class="btn btn-outline-primary btn-block col-sm-10 mx-auto" style="display: none">더 보기</button>
-
-       </div>
+        </form>
     </div>
-</div>
+    </div>
+    <div class="d-flex align-items-baseline review-category col-12 justify-content-around mt-0">
+        <label>
+            <input type="radio" name="allReviewCate" class="d-none tabCategory allReviewCate" id="allReviewCate" onclick="location.href='/community/goReview'">
+            <span class="d-block text-center py-3 px-5 btn-rev">전체</span>
+        </label>
+        <label>
+            <input type="radio" name="subsCate" class="d-none tabCategory subsCate" id="subsCate" onclick="goCateBest('정기구독')">
+            <span class="d-block text-center py-3 px-5 btn-rev">꽃 정기구독</span>
+        </label>
+        <label>
+            <input type="radio" name="flowerCate" class="d-none tabCategory flowerCate" id="flowerCate" onclick="goCateBest('꽃다발')">
+            <span class="d-block text-center py-3 px-5 btn-rev">꽃다발</span>
+        </label>
+        <label>
+            <input type="radio" name="fClassCate" class="d-none tabCategory fClassCate" id="fClassCate" onclick="goCateBest('클래스')">
+            <span class="d-block text-center py-3 px-5 btn-rev">클래스</span>
+        </label>
+        <label>
+            <input type="radio" name="productCate" class="d-none tabCategory productCate" id="productCate" onclick="goCateBest('소품샵')">
+            <span class="d-block text-center py-3 px-5 btn-rev">소품샵</span>
+        </label>
+    </div> <!-- 카테고리 탭 닫기 -->
+
+
+
+
+
+
+
+
+    <!----------------동호 작업분----------------------->
+    <div id="mainWrapper" class="pt-2">
+       <ul>
+            <!-- 게시판 제목 -->
+<%--            <li>리뷰 게시판</li>--%>
+<%--            <!-- 게시판 목록  -->--%>
+<%--            <li>--%>
+
+                <%--전체 정기구독 꽃다발 --- 탭 --%>
+               <%-- <ul class="nav nav-pills nav-justified">
+                    <li class="nav-item align-items-baseline review-category justify-content-around">
+                        <a class="btn-rev" href="/community/goReview">전체</a>
+                    </li>
+                    <li class="nav-item align-items-baseline review-category justify-content-around">
+&lt;%&ndash;                            <a href="#" onclick='goAllList("best", "정기구독")'>정기구독</a>&ndash;%&gt;
+                        <a class="btn-rev" href="#" onclick='goCateBest("정기구독")'>정기구독</a>
+                    </li>
+                    <li class="nav-item align-items-baseline review-category justify-content-around">
+&lt;%&ndash;                            <a href="#" onclick='goAllList("best", "꽃다발")'>꽃다발</a>&ndash;%&gt;
+                        <a class="btn-rev" href="#" onclick='goCateBest("꽃다발")'>꽃다발</a>
+                    </li>
+                    <li class="nav-item align-items-baseline review-category justify-content-around">
+&lt;%&ndash;                            <a href="#" onclick='goAllList("best", "클래스")'>클래스</a>&ndash;%&gt;
+                        <a class="btn-rev" href="#" onclick='goCateBest("클래스")'>클래스</a>
+                    </li>
+                    <li class="nav-item align-items-baseline review-category justify-content-around">
+&lt;%&ndash;                            <a href="#" onclick='goAllList("best", "소품샵")'>소품샵</a>&ndash;%&gt;
+                        <a class="btn-rev" href="#" onclick='goCateBest("소품샵")'>소품샵</a>
+                    </li>
+
+                </ul>--%>
+                <ul class="nav justify-content-around reviewBox col-12 pt-4" id="review-bar">
+                    <li id="best" class="nav-item-3 btn btn-warning btn-outline-warning col-6 pe-1">
+                        <a class="nav-link text-dark" id="${param.category}" href="#" onclick='goBestList("best", "${param.category}")'>베스트 리뷰</a>
+                    </li>
+                    <li id="all" class="nav-item-3 btn btn-outline-warning col-6 ps-1">
+                        <a class="nav-link text-dark" id="${param.category}" href="#" onclick='goAllList("allList", "${param.category}")'>전체리뷰</a>
+                    </li>
+                </ul>
+           <div class="pt-3">
+                <span id ="ulTablebar">
+                    <li>
+                        <ul class="d-flex col-12 text-center px-0 ps-0">
+                                    <li class="col-2 btn titleBtn text-light">별점</li>
+                                    <li class="col-4 btn titleBtn text-light">제목</li>
+                                    <li class="col-2 btn titleBtn text-light">작성일</li>
+                                    <li class="col-2 btn titleBtn text-light">작성자</li>
+                                    <li class="col-2 btn titleBtn text-light">좋아요</li>
+                        </ul>
+                    </li>
+                </span>
+           </div>
+                    <!-- 게시물이 출력될 영역 -->
+                <div id="ulTable" class="accordion accordion-flush">
+                    <c:forEach var="bestAllList" items="${bestRList}">
+                    <span class='allBoxes accordion-item'>
+                        <ul id="head${bestAllList.idx}" class="accordion-header headacco col-12 text-center ps-0 pe-1">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col${bestAllList.idx}" aria-expanded="false" aria-controls="col${bestAllList.idx}">
+                                <li class="justify-content-center col-2">
+                                    <div class="my-auto">
+                                        <c:if test="${bestAllList.star eq 5}">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                        </c:if>
+                                        <c:if test="${bestAllList.star eq 4}">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                        </c:if>
+
+                                        <c:if test="${bestAllList.star eq 3}">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                        </c:if>
+                                        <c:if test="${bestAllList.star eq 2}">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                        </c:if>
+                                        <c:if test="${bestAllList.star eq 1}">
+                                            <i class="fas fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                        </c:if>
+                                        <c:if test="${bestAllList.star eq 0}">
+                                            <i class="far fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                            <i class="far fa-star text-warning"></i>
+                                        </c:if>
+                                    </div>
+                                </li>
+                                <li class="d-flex justify-content-center col-4"><span class="d-flex my-auto">${bestAllList.name}</span></li>
+                                <li class="d-flex justify-content-center col-2"><span class="d-flex my-auto">${bestAllList.regDate}</span></li>
+                                <c:set var = "member_id" value = "${fn:substring(bestAllList.memberId, 0, 4)}" />
+                                <li class="d-flex justify-content-center idCut col-2"><span class="d-flex my-auto">${member_id}***</span></li>
+                                <li class="d-flex justify-content-center col-2"><span class="d-flex my-auto">${bestAllList.likeCount}</span></li>
+                            </button>
+                        </ul>
+
+                        <div id="col${bestAllList.idx}" class="accordion-collapse collapse" aria-labelledby="head${bestAllList.idx}" data-bs-parent="#ulTable">
+                            <div class="accordion-body">
+                                <div class="d-flex justify-content-center">
+                                    <p>${bestAllList.content}</p>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <c:if test="${not empty bestAllList.image}">
+                                        <div>
+                                            <img src="${bestAllList.image}" alt="사진" style="max-width: 450px">
+                                        </div>
+                                    </c:if>
+                                </div>
+                                    <div class="d-flex justify-content-end">
+                                        <c:if test="${bestAllList.hasReview}">
+                                        <button class="btn like"
+                                                onclick="goLike('${member.id}', '${bestAllList.idx}')"><i class="fas fa-thumbs-up text-dark fa-2x"></i>
+                                        </button>
+                                        </c:if>
+                                        <c:if test="${!bestAllList.hasReview}">
+                                            <button class="btn like"
+                                                    onclick="goLike('${member.id}', '${bestAllList.idx}')"><i class="far fa-thumbs-up text-dark fa-2x"></i>
+                                            </button>
+                                        </c:if>
+                                    </div>
+                                <div class="d-flex justify-content-center">
+                                    <c:if test="${member.id == bestAllList.memberId || member.id == 'admin' || admin.id == 'admin'}">
+                                            <button type="button" class="btn btn-secondary mx-2"
+                                                    onclick="goUpdate(this.form, ${bestAllList.idx})">수정
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger"
+                                                    onclick="goDelete(${bestAllList.idx})">삭제
+                                            </button>
+                                    </c:if>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+                    </c:forEach>
+                </div>
+            </li>
+            <li>
+            </li>
+        </ul>
+       <button id="searchMoreNotify" class="btn btn-outline-primary btn-block col-sm-10 mx-auto" style="display: none">더 보기</button>
+   </div>
+</div> <!-- #container 닫기 -->
 
 <%@ include file="../main/footer.jspf"%>
 </body>
@@ -259,17 +373,24 @@
     //
     // });
 
-    function goUpdate(form, idx) {
-        console.log(form + idx);
+    // $(function (){
+    //     let cutid = $('.idCut').text().substring(0,4);
+    //     console.log(cutid);
+    //     // $('.idCut').text() = string.substr(0,4);
+    //
+    // });
+    function goUpdate(form, reviewIdx) {
+       location.href = "/community/event/updateWrite?reviewIdx=" + reviewIdx;
     }
 
     function goLike(memberId, reviewIdx, bt) {
-        // console.log(bt.children(".fas"));
+        if(memberId == null || memberId == ''){
+            alert("로그인이 필요합니다.");
+            return;
+        }
         if($("this").children("button").hasClass("fas")){
-            alert("ddddddd");
         }
         if($("this").children("button").hasClass("far")){
-            alert("ddddddd");
         }
         if($(this).hasClass("toggleStyle")) {
             $(this).removeClass("toggleStyle");
@@ -293,39 +414,56 @@
 
     function goSearch(form) {
         let listList = new Array();
-        <c:forEach items="${likeList}" var="like">
-        listList.push({idx: ${like.idx}
-            ,reviewIdx: ${like.reviewIdx}
-            ,memberId: "${like.memberId}"});
-        </c:forEach>
-        for(let i=0;i<listList.length; i++){
-            console.log(listList[i].idx);
-            console.log(listList[i].memberId);
-            console.log(listList[i].reviewIdx);
-        }
+<%--        <c:forEach items="${likeList}" var="like">--%>
+<%--        listList.push({idx: ${like.idx}--%>
+<%--            ,reviewIdx: ${like.reviewIdx}--%>
+<%--            ,memberId: "${like.memberId}"});--%>
+<%--        </c:forEach>--%>
+        // for(let i=0;i<listList.length; i++){
+        //     console.log(listList[i].idx);
+        //     console.log(listList[i].memberId);
+        //     console.log(listList[i].reviewIdx);
+        // }
         let formData = $(form).serialize();
+            // new FormData(document.querySelector('#review-form'));
+            // $(form).serialize();
         let id = '${member.id}';
+        let adminId = '${admin.id}';
         $.ajax({
-            url: '/admin/question/searchReview',
-            type: 'get',
+            url: '/question/searchReview',
+            type: 'post',
             dataType: 'json',
             data: formData,
-
+            // processData: false,
+            // contentType: false,
             success: function (result){
+                console.log(result);
                 let resultBar = "";
                 let ultable = "";
                 let dispHtml = "";
-                resultBar += '<li class="nav-item">'
-                    + '<span class="nav-link">검색결과</span>'
-                    + '</li>'
+                resultBar += '<li class="nav-item-3 btn btn-outline-warning col-6 pe-1">'
+                    + '<span class="nav-link text-dark">검색결과</span>'
+                    + '</li>';
 
-                ultable += '<li> <ul> <li>별점</li> <li>제목</li> <li>작성일</li> <li>작성자</li> <li>좋아요</li> </ul> </li>';
-
+                ultable += '<div class="pt-3">'
+                + '<span id="ulTablebar">'
+                + '<ul class="d-flex col-12 text-center px-0">'
+                + '<li class="col-2 btn titleBtn text-light">별점</li>'
+                + '<li class="col-4 btn titleBtn text-light">제목</li>'
+                + '<li class="col-2 btn titleBtn text-light">작성일</li>'
+                + '<li class="col-2 btn titleBtn text-light">작성자</li>'
+                + '<li class="col-2 btn titleBtn text-light">좋아요</li>'
+                + '</ul></span></div>';
+                 // '<li> <ul> <li>별점</li> <li>제목</li> <li>작성일</li> <li>작성자</li> <li>좋아요</li> </ul> </li>';
+                if(result.length < 1){
+                    dispHtml += '<div class="col fs-2 mt-5 mb-3 text-center">검색결과가 없습니다.</div>';
+                }
                 $.each(result, function (i, item) {
-                    dispHtml += '<li class="allBoxes accordion-item">';
-                    dispHtml +=   '<ul id="head' + this.idx + '" class="accordion-header headacco">';
-                    dispHtml += '<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#col' + this.idx + '" aria-expanded="false" aria-controls="col' + this.idx + '">'
-                    dispHtml +=   '<li class="text-center"><div>';
+                    dispHtml += '<span class="allBoxes accordion-item">';
+                    dispHtml +=   '<ul id="head' + this.idx + '" class="accordion-header headacco col-12 text-center ps-0 pe-1">';
+                    dispHtml += '<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col' + this.idx + '" aria-expanded="false" aria-controls="col' + this.idx + '">'
+                    dispHtml +=   '<li class="justify-content-center col-2"><div class="my-auto">';
+
                     if(this.star == 5){
                         dispHtml += '<i class="fas fa-star text-warning"></i>'
                             + '<i class="fas fa-star text-warning"></i>'
@@ -369,22 +507,24 @@
                             + '<i class="far fa-star text-warning"></i>';
                     }
 
-
                     dispHtml += '</div></li>';
-                    dispHtml +=   '<li class="text-center">' + this.name + '</li>'
-                        + '<li class="text-center"><div>' + this.regDate + '</div></li>'
-                        + '<li class="text-center"><div>' +this.memberId + '</div></li>'
-                        + '<li class="text-center"><div>' +  this.likeCount + '</div></li></<button>'
+
+                    dispHtml +=   '<li class="d-flex justify-content-center col-4"><span class="d-flex my-auto"><span class="d-flex my-auto">' + this.name + '</span></li>'
+                        + '<li class="d-flex justify-content-center col-2"><span class="d-flex my-auto">' + this.regDate + '</span></li>'
+                        + '<li class="d-flex justify-content-center idCut col-2"><span class="d-flex my-auto">' +this.memberId.substring(0,4) + '***</span></li>'
+                        + '<li class="d-flex justify-content-center col-2"><span class="d-flex my-auto">' +  this.likeCount + '</span></li></<button>'
                         + '</ul>'
+
                         + '<div id="col' + this.idx + '" class="accordion-collapse collapse" aria-labelledby="head' + this.idx + '" data-bs-parent="#ulTable">'
                         + '<div class="accordion-body">'
-                        + '<div>'
-                        +   '<p>' + this.content + '</p>'
+                        + '<div class="d-flex justify-content-center">'
+                        +   '<p>' + item.content + '</p>'
                         + '</div>'
-                        + '<div>';
+
+                        + '<div class="d-flex justify-content-center">';
                     if(this.image != null) {
                         dispHtml += '<div>'
-                            + '<img src="/static/upload/community/review/' + this.image + '" alt="아아아아악">'
+                            + '<img src="' + this.image + '" alt="사진">'
                             + '</div>';
                     }
                     dispHtml += "</div>";
@@ -397,7 +537,7 @@
                     }
                     dispHtml += '</div>'
                         + '<div class="d-flex justify-content-center">';
-                    if(this.memberId == id || id == 'xzllxz456@naver.com'){
+                    if(this.memberId == id || adminId == 'admin'){
                         dispHtml += '<button type="button" class="btn btn-secondary mx-2"'
                             + 'onclick="goUpdate(this.form,' + this.idx + ')">수정'
                             + '</button>'
@@ -418,11 +558,13 @@
     }
 
     function goAllList(tab, paramType) {
+        $("#all").addClass('btn-warning');
+        $("#best").removeClass('btn-warning')
         $('.allBoxes').remove();
         $("#searchMoreNotify").css("display", "block");
         let startIndex = 1;	// 인덱스 초기값
-        let searchStep = 1;	// 5개씩 로딩
-        let _endIndex = 1;
+        let searchStep = 5;	// 5개씩 로딩
+        let _endIndex = 5;
         goApiAllList(startIndex, searchStep, _endIndex);
         // $(".accordion_count").css("display", "none");
     }
@@ -475,6 +617,7 @@
             // _endIndex = index+searchStep-1;	// endIndex설정
             // $(".accordion_count").css("display", "none");
             let id = '${member.id}';
+            let adminId = '${admin.id}';
             console.log(index + "index");
             console.log(searchStep + "search")
             console.log(_endIndex + "_endIndex");
@@ -492,10 +635,11 @@
                     console.dir(result);
                     let dispHtml = "";
                     $.each(result, function (i, item) {
-                        dispHtml += '<li class="allBoxes accordion-item">';
-                        dispHtml +=   '<ul id="head' + this.idx + '" class="accordion-header headacco">';
-                        dispHtml += '<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#col' + this.idx + '" aria-expanded="false" aria-controls="col' + this.idx + '">'
-                        dispHtml +=   '<li class="text-center"><div>';
+                        dispHtml += '<span class="allBoxes accordion-item">';
+                        dispHtml +=   '<ul id="head' + this.idx + '" class="accordion-header headacco col-12 text-center ps-0 pe-1">';
+                        dispHtml += '<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col' + this.idx + '" aria-expanded="false" aria-controls="col' + this.idx + '">'
+                        dispHtml +=   '<li class="justify-content-center col-2"><div class="my-auto">';
+
                         if(this.star == 5){
                             dispHtml += '<i class="fas fa-star text-warning"></i>'
                                 + '<i class="fas fa-star text-warning"></i>'
@@ -541,20 +685,22 @@
 
                         dispHtml += '</div></li>';
 
-                        dispHtml +=   '<li class="text-center">' + this.name + '</li>'
-                            + '<li class="text-center"><div>' + this.regDate + '</div></li>'
-                            + '<li class="text-center"><div>' +this.memberId + '</div></li>'
-                            + '<li class="text-center"><div>' +  this.likeCount + '</div></li></<button>'
+                        dispHtml +=   '<li class="d-flex justify-content-center col-4"><span class="d-flex my-auto"><span class="d-flex my-auto">' + this.name + '</span></li>'
+                            + '<li class="d-flex justify-content-center col-2"><span class="d-flex my-auto">' + this.regDate + '</span></li>'
+                            + '<li class="d-flex justify-content-center idCut col-2"><span class="d-flex my-auto">' +this.memberId.substring(0,4) + '***</span></li>'
+                            + '<li class="d-flex justify-content-center col-2"><span class="d-flex my-auto">' +  this.likeCount + '</span></li></<button>'
                             + '</ul>'
+
                             + '<div id="col' + this.idx + '" class="accordion-collapse collapse" aria-labelledby="head' + this.idx + '" data-bs-parent="#ulTable">'
                             + '<div class="accordion-body">'
-                            + '<div>'
-                            +   '<p>' + this.content + '</p>'
+                            + '<div class="d-flex justify-content-center">'
+                            +   '<p>' + item.content + '</p>'
                             + '</div>'
-                            + '<div>';
+
+                            + '<div class="d-flex justify-content-center">';
                         if(this.image != null) {
                             dispHtml += '<div>'
-                                + '<img src="/static/upload/community/review/' + this.image + '" alt="아아아아악">'
+                                + '<img src="' + this.image + '" alt="사진">'
                                 + '</div>';
                         }
                         dispHtml += "</div>";
@@ -567,7 +713,7 @@
                         }
                         dispHtml += '</div>'
                             + '<div class="d-flex justify-content-center">';
-                        if(this.memberId == id || id == 'xzllxz456@naver.com'){
+                        if(this.memberId == id || adminId == 'admin'){
                             dispHtml += '<button type="button" class="btn btn-secondary mx-2"'
                                 + 'onclick="goUpdate(this.form,' + this.idx + ')">수정'
                                 + '</button>'
@@ -600,7 +746,8 @@
 
 
     function goBestList(tab, paramType) {
-
+        $("#best").addClass('btn-warning');
+        $("#all").removeClass('btn-warning')
         // for(let i=0;i<listList.length; i++){
         //     console.log(listList[i].idx);
         //     console.log(listList[i].memberId);
@@ -608,6 +755,7 @@
         // }
         $("#searchMoreNotify").css("display", "none");
         let id = '${member.id}';
+        let adminId = '${admin.id}';
         let dataParam = {
             category : paramType
         };
@@ -619,10 +767,11 @@
             success: function (result) {
                let dispHtml = "";
                 $.each(result, function (i, item) {
-                    dispHtml += '<li class="allBoxes accordion-item">';
-                    dispHtml +=   '<ul id="head' + this.idx + '" class="accordion-header headacco">';
-                    dispHtml += '<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#col' + this.idx + '" aria-expanded="false" aria-controls="col' + this.idx + '">'
-                    dispHtml +=   '<li class="text-center"><div>';
+                    dispHtml += '<span class="allBoxes accordion-item">';
+                    dispHtml +=   '<ul id="head' + this.idx + '" class="accordion-header headacco col-12 text-center ps-0 pe-1">';
+                    dispHtml += '<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#col' + this.idx + '" aria-expanded="false" aria-controls="col' + this.idx + '">'
+                    dispHtml +=   '<li class="justify-content-center col-2"><div class="my-auto">';
+
                     if(this.star == 5){
                         dispHtml += '<i class="fas fa-star text-warning"></i>'
                             + '<i class="fas fa-star text-warning"></i>'
@@ -668,20 +817,22 @@
 
                     dispHtml += '</div></li>';
 
-                    dispHtml +=   '<li class="text-center">' + this.name + '</li>'
-                        + '<li class="text-center"><div>' + this.regDate + '</div></li>'
-                        + '<li class="text-center"><div>' +this.memberId + '</div></li>'
-                        + '<li class="text-center"><div>' +  this.likeCount + '</div></li></<button>'
+                    dispHtml +=   '<li class="d-flex justify-content-center col-4"><span class="d-flex my-auto"><span class="d-flex my-auto">' + this.name + '</span></li>'
+                        + '<li class="d-flex justify-content-center col-2"><span class="d-flex my-auto">' + this.regDate + '</span></li>'
+                        + '<li class="d-flex justify-content-center idCut col-2"><span class="d-flex my-auto">' +this.memberId.substring(0,4) + '***</span></li>'
+                        + '<li class="d-flex justify-content-center col-2"><span class="d-flex my-auto">' +  this.likeCount + '</span></li></<button>'
                         + '</ul>'
+
                         + '<div id="col' + this.idx + '" class="accordion-collapse collapse" aria-labelledby="head' + this.idx + '" data-bs-parent="#ulTable">'
                         + '<div class="accordion-body">'
-                        + '<div>'
+                        + '<div class="d-flex justify-content-center">'
                         +   '<p>' + item.content + '</p>'
                         + '</div>'
-                        + '<div>';
+
+                        + '<div class="d-flex justify-content-center">';
                     if(this.image != null) {
                         dispHtml += '<div>'
-                            + '<img src="/static/upload/community/review/' + this.image + '" alt="아아아아악">'
+                            + '<img src="' + this.image + '" alt="사진">'
                             + '</div>';
                     }
                     dispHtml += "</div>";
@@ -694,7 +845,7 @@
                     }
                     dispHtml += '</div>'
                         + '<div class="d-flex justify-content-center">';
-                    if(this.memberId == id || id == 'xzllxz456@naver.com'){
+                    if(this.memberId == id || adminId == 'admin'){
                         dispHtml += '<button type="button" class="btn btn-secondary mx-2"'
                             + 'onclick="goUpdate(this.form,' + this.idx + ')">수정'
                             + '</button>'
@@ -704,17 +855,15 @@
                     }
                     dispHtml += '</div>';
 
-                    dispHtml += "</div></div></li>";
+                    dispHtml += "</div></div></span>";
                 });
                 $("#ulTable").html(dispHtml);
             }
         });
     }
-
     function goDelete(idx) {
         location.href="/community/category/deleteReview?idx=" + idx;
     }
-
 </script>
 
 </html>
