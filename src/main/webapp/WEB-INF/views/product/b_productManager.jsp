@@ -21,11 +21,11 @@
             배너 등록/수정
         </div>
         <div class="btn-circle d-flex justify-content-center align-items-center"
-             onclick="location.href='/admin/productAddForm'">
+             onclick="location.href='/admin/product/addForm'">
             소품샵 상품 등록
         </div>
         <div class="btn-circle d-flex justify-content-center align-items-center text-center"
-             onclick="location.href='/admin/productList'">소품샵 상품<br>조회/수정/삭제
+             onclick="location.href='/admin/product/list'">소품샵 상품<br>조회/수정/삭제
         </div>
     </div>
 </div>

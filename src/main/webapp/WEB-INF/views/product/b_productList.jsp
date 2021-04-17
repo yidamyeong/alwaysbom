@@ -32,14 +32,14 @@
                 <div class="thumbnails-wrap position-relative d-flex flex-column justify-content-start align-items-end">
                     <button type="button" class="btn-close-style" onclick="showDeleteModal(${productVo.idx})">삭제</button>
                     <div class="overflow-hidden mb-3 thumbnails">
-                        <a href="/admin/productUpdateForm/${productVo.idx}">
+                        <a href="/admin/product/${productVo.idx}">
                             <img src="${productVo.image1}" class="col-12" alt="소품샵 썸네일">
                         </a>
                     </div>
                 </div>
                 <div class="ps-1">
                     <div class="item-name">
-                        <a href="/admin/productUpdateForm/${productVo.idx}">${productVo.name}</a></div>
+                        <a href="/admin/product/${productVo.idx}">${productVo.name}</a></div>
                     <div class="price-wrap">
                     <c:if test="${not empty productVo.discountRate && productVo.discountRate > 0}">
                     <span class="discount-rate">${productVo.discountRate}%</span>
@@ -74,14 +74,14 @@
                 <div class="thumbnails-wrap position-relative d-flex flex-column justify-content-start align-items-end">
                     <button type="button" class="btn-close-style" onclick="showDeleteModal(${productVo.idx})">삭제</button>
                     <div class="overflow-hidden mb-3 thumbnails">
-                        <a href="/admin/productUpdateForm/${productVo.idx}">
+                        <a href="/admin/product/${productVo.idx}">
                             <img src="${productVo.image1}" class="col-12" alt="소품샵 썸네일">
                         </a>
                     </div>
                 </div>
                 <div class="ps-1">
                     <div class="item-name">
-                        <a href="/admin/productUpdateForm/${productVo.idx}">${productVo.name}</a></div>
+                        <a href="/admin/product/${productVo.idx}">${productVo.name}</a></div>
                     <div class="price-wrap">
                     <c:if test="${not empty productVo.discountRate && productVo.discountRate > 0}">
                     <span class="discount-rate">${productVo.discountRate}%</span>
@@ -130,7 +130,7 @@
     }
 
     function deleteItem(frm) {
-        frm.action = "/admin/deleteProduct";
+        frm.action = "/admin/product/delete";
         frm.submit();
     }
 </script>

@@ -27,7 +27,7 @@
             <li class="breadcrumb-item active" aria-current="page">상품 등록</li>
             </c:if>
             <c:if test="${not empty productVo}">
-            <li class="breadcrumb-item" onclick="location.href='/admin/productList'">상품 조회</li>
+            <li class="breadcrumb-item" onclick="location.href='/admin/product/list'">상품 조회</li>
             <li class="breadcrumb-item active" aria-current="page">${productVo.name}</li>
             </c:if>
         </ol>
@@ -493,7 +493,7 @@
     /* 폼데이터 전송후 창 이동 */
     function goInsert(frm) {
         if (checkValidation(true)) {
-            frm.action = "/admin/addProduct";
+            frm.action = "/admin/product/add";
             frm.submit();
         } else {
             return;
@@ -501,7 +501,7 @@
     }
     function goUpdate(frm) {
         if (checkValidation(false)) {
-            frm.action = "/admin/updateProduct";
+            frm.action = "/admin/product/update";
             frm.submit();
         } else {
             return;

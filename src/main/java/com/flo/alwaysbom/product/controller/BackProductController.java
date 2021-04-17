@@ -28,7 +28,7 @@ public class BackProductController {
     }
 
     /* 소품샵 상품리스트 조회 */
-    @GetMapping("/admin/productList")
+    @GetMapping("/admin/product/list")
     public String getList(Model model) {
         getProductList(model, productService.findAll(), productService.findByCategory("vase"),
                 productService.findByCategory("goods"));
@@ -46,24 +46,24 @@ public class BackProductController {
     }
 
     /* 상품 등록페이지로 이동 */
-    @GetMapping("/admin/productAddForm")
+    @GetMapping("/admin/product/addForm")
     public String goInsert() {
         return "product/b_addForm";
     }
 
     /* '등록하기' 버튼 눌렀을 때 처리 */
-    @PostMapping("/admin/addProduct")
+    @PostMapping("/admin/product/add")
     public String addProduct(ProductVo vo, List<MultipartFile> file) throws IOException {
         vo.setImage1(fileHandler.uploadFile(file.get(0), null, "product"));
         vo.setImage2(fileHandler.uploadFile(file.get(1), null, "product"));
         vo.setImage3(fileHandler.uploadFile(file.get(2), null, "product"));
         System.out.println("productVo = " + vo);
         vo = productService.addProduct(vo);
-        return "redirect:/admin/productList";
+        return "redirect:/admin/product/list";
     }
 
     /* 상품 수정페이지로 이동 */
-    @GetMapping("/admin/productUpdateForm/{idx}")
+    @GetMapping("/admin/product/{idx}")
     public String goUpdate(@PathVariable Integer idx, Model model) {
         ProductVo product = productService.findByIdx(idx)
                 .orElseThrow(() -> new IllegalStateException("해당 상품 인덱스가 존재하지 않습니다"));
@@ -72,18 +72,18 @@ public class BackProductController {
     }
 
     /* '수정완료' 버튼 눌렀을 때 처리 */
-    @PostMapping("/admin/updateProduct")
+    @PostMapping("/admin/product/update")
     public String updateProduct(ProductVo vo, List<MultipartFile> file) throws IOException {
         vo.setImage1(fileHandler.uploadFile(file.get(0), vo.getImage1(), "product"));
         vo.setImage2(fileHandler.uploadFile(file.get(1), vo.getImage2(), "product"));
         vo.setImage3(fileHandler.uploadFile(file.get(2), vo.getImage3(), "product"));
         System.out.println("productVo = " + vo);
         Integer idx = productService.updateProduct(vo);
-        return "redirect:/admin/productList";
+        return "redirect:/admin/product/list";
     }
 
     /* 상품 삭제 */
-    @GetMapping("/admin/deleteProduct")
+    @GetMapping("/admin/product/delete")
     public String deleteProduct(Integer idx) {
 //        ProductVo product = backProductService.findByIdx(idx)
 //                .orElseThrow(() -> new IllegalStateException("해당 상품 인덱스가 존재하지 않습니다"));
@@ -103,6 +103,6 @@ public class BackProductController {
 //            e.printStackTrace();
 //        }
         productService.deleteProduct(idx);
-        return "redirect:/admin/productList";
+        return "redirect:/admin/product/list";
     }
 }
