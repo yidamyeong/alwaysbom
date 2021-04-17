@@ -10,13 +10,13 @@
 <body>
 <%@ include file="../main/b_header.jspf"%>
 <div id="container" class="mx-auto">
-    <form action="/admin/subsUpdateForm">
+    <form>
         <!-- 메뉴 이동 경로 -->
         <nav id="bread-nav" style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb mb-8em">
                 <li class="breadcrumb-item"><a href="/admin/main">관리자 홈</a></li>
-                <li class="breadcrumb-item"><a href="/admin/subs">꽃다발 관리</a></li>
-                <li class="breadcrumb-item"><a href="/admin/subsList">상품 조회</a></li>
+                <li class="breadcrumb-item"><a href="/admin/subs">정기구독 관리</a></li>
+                <li class="breadcrumb-item"><a href="/admin/subs/list">상품 조회</a></li>
                 <li class="breadcrumb-item active" aria-current="page">${subsVo.name}</li>
             </ol>
         </nav>
@@ -39,7 +39,7 @@
 <script>
     function goDelete(frm) {
         // 정말 삭제하시겠냐 모달창 띄우고 예 누르면 삭제, 아니면 모달창 끄기
-        frm.action="/admin/deleteSubs";
+        frm.action="/admin/subs/delete";
         frm.submit();
     }
 

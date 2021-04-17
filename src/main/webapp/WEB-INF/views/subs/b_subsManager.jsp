@@ -22,11 +22,11 @@
                 배너 등록/수정
             </div>
             <div class="btn-circle d-flex justify-content-center align-items-center"
-                 onclick="location.href='/admin/subsAddForm'">
+                 onclick="location.href='/admin/subs/addForm'">
                 정기구독 상품 등록
             </div>
             <div class="btn-circle d-flex justify-content-center align-items-center text-center"
-                 onclick="location.href='/admin/subsList'">
+                 onclick="location.href='/admin/subs/list'">
                 정기구독 상품<br>조회/수정/삭제
             </div>
         </div>

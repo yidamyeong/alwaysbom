@@ -45,7 +45,7 @@ public class BackFlowerController {
     }
 
     /* 상품 수정페이지로 이동 */
-    @GetMapping("/admin/flower/updateForm/{idx}")
+    @GetMapping("/admin/flower/{idx}")
     public String goUpdateForm(@PathVariable Integer idx, Model model) {
         FlowerVo flower = flowerService.findByIdx(idx)
                 .orElseThrow(() -> new IllegalStateException("해당 상품 인덱스가 존재하지 않습니다"));

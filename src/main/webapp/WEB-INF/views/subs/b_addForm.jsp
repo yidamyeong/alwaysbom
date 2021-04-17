@@ -27,7 +27,7 @@
                 <li class="breadcrumb-item active" aria-current="page">정기구독 등록</li>
             </c:if>
             <c:if test="${not empty subsVo}">
-                <li class="breadcrumb-item" onclick="location.href='/admin/subsList'">정기구독 조회</li>
+                <li class="breadcrumb-item" onclick="location.href='/admin/subs/list'">정기구독 조회</li>
                 <li class="breadcrumb-item" disabled>${subsVo.name}</li>
                 <li class="breadcrumb-item active" aria-current="page">상품 수정</li>
             </c:if>
@@ -293,11 +293,11 @@
 
     /* 폼데이터 전송후 창 이동 */
     function goInsert(frm) {
-        frm.action = "/admin/addSubs";
+        frm.action = "/admin/subs/add";
         frm.submit();
     }
     function goUpdate(frm) {
-        frm.action = "/admin/updateSubs/";
+        frm.action = "/admin/subs/update";
         frm.submit();
     }
 </script>

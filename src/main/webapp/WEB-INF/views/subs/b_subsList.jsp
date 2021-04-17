@@ -16,7 +16,7 @@
         <ol class="breadcrumb mb-8em">
             <li class="breadcrumb-item" onclick="location.href='/admin/main'">관리자 홈</li>
             <li class="breadcrumb-item" onclick="location.href='/admin/subs'">정기구독 관리</li>
-            <li class="breadcrumb-item active" aria-current="page">정기구독 상품 조회/수정/삭제</li>
+            <li class="breadcrumb-item active" aria-current="page">상품 조회</li>
         </ol>
     </nav>
 
@@ -34,7 +34,7 @@
                     <div class="overflow-hidden">
                         <div class="flex-row thumbnails d-flex justify-content-center scale-up">
                             <!-- 이미지 클릭시, 수정 페이지로 이동 -->
-                            <a href="/admin/subsUpdateForm/${subsVo.idx}">
+                            <a href="/admin/subs/${subsVo.idx}">
                                 <img src="${subsVo.image1}" alt="${subsVo.name}" class="w-100" height="580px"/>
                             </a>
                         </div>
@@ -87,7 +87,7 @@
     }
 
     function deleteItem(frm) {
-        frm.action = "/admin/deleteSubs";
+        frm.action = "/admin/subs/delete";
         frm.submit();
     }
 </script>
