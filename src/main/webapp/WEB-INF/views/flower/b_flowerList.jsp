@@ -28,7 +28,7 @@
                 <div class="thumbnails-wrap position-relative d-flex flex-column justify-content-start align-items-end">
                     <button type="button" class="btn-close-style" onclick="showDeleteModal(${flowerVo.idx})">삭제</button>
                     <div class="overflow-hidden thumbnails">
-                        <a href="/admin/flowerUpdateForm/${flowerVo.idx}">
+                        <a href="/admin/flower/updateForm/${flowerVo.idx}">
                             <img src="${flowerVo.image1}" class="col-12" alt="꽃다발 썸네일">
                         </a>
                     </div>
@@ -36,7 +36,7 @@
                 <div class="ps-1">
                     <div class="subheader">${flowerVo.subheader}</div>
                     <div class="item-name">
-                        <a href="/admin/flowerUpdateForm/${flowerVo.idx}">${flowerVo.name}</a></div>
+                        <a href="/admin/flower/updateForm/${flowerVo.idx}">${flowerVo.name}</a></div>
                     <div>
                         <c:if test="${not empty flowerVo.discountRate && flowerVo.discountRate > 0}">
                         <span class="discount-rate">${flowerVo.discountRate}%</span>
@@ -89,7 +89,7 @@
     }
 
     function deleteItem(frm) {
-        frm.action = "/admin/deleteFlower";
+        frm.action = "/admin/flower/delete";
         frm.submit();
     }
 </script>

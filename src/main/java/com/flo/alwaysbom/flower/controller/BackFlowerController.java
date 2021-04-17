@@ -29,23 +29,23 @@ public class BackFlowerController {
     }
 
     /* 상품 등록페이지로 이동 */
-    @GetMapping("/admin/flowerAddForm")
+    @GetMapping("/admin/flower/addForm")
     public String goInsertForm() {
         return "flower/b_addForm";
     }
 
     /* '등록하기' 버튼 눌렀을 때 처리 */
-    @PostMapping("/admin/addFlower")
+    @PostMapping("/admin/flower/add")
     public String addFlower(FlowerVo vo, List<MultipartFile> file) throws IOException {
         vo.setImage1(fileHandler.uploadFile(file.get(0), null, "flower"));
         vo.setImage2(fileHandler.uploadFile(file.get(1), null, "flower"));
         vo.setImage3(fileHandler.uploadFile(file.get(2), null, "flower"));
         vo = flowerService.addFlower(vo);
-        return "redirect:/admin/flowerList";
+        return "redirect:/admin/flower/list";
     }
 
     /* 상품 수정페이지로 이동 */
-    @GetMapping("/admin/flowerUpdateForm/{idx}")
+    @GetMapping("/admin/flower/updateForm/{idx}")
     public String goUpdateForm(@PathVariable Integer idx, Model model) {
         FlowerVo flower = flowerService.findByIdx(idx)
                 .orElseThrow(() -> new IllegalStateException("해당 상품 인덱스가 존재하지 않습니다"));
@@ -54,17 +54,17 @@ public class BackFlowerController {
     }
 
     /* '수정완료' 버튼 눌렀을 때 처리 */
-    @PostMapping("/admin/updateFlower")
+    @PostMapping("/admin/flower/update")
     public String updateFlower(FlowerVo vo, List<MultipartFile> file) throws IOException {
         vo.setImage1(fileHandler.uploadFile(file.get(0), vo.getImage1(), "flower"));
         vo.setImage2(fileHandler.uploadFile(file.get(1), vo.getImage2(), "flower"));
         vo.setImage3(fileHandler.uploadFile(file.get(2), vo.getImage3(), "flower"));
         Integer idx = flowerService.updateFlower(vo);
-        return "redirect:/admin/flowerList";
+        return "redirect:/admin/flower/list";
     }
 
     /* 꽃다발 상품 리스트 조회 */
-    @GetMapping("/admin/flowerList")
+    @GetMapping("/admin/flower/list")
     public String findAll(Model model) {
         List<FlowerVo> list = flowerService.findAll();
         model.addAttribute("list", list);
@@ -72,10 +72,10 @@ public class BackFlowerController {
     }
 
     /* 상품 삭제 */
-    @GetMapping("/admin/deleteFlower")
+    @GetMapping("/admin/flower/delete")
     public String deleteFlower(Integer idx) {
         flowerService.deleteFlower(idx);
-        return "redirect:/admin/flowerList";
+        return "redirect:/admin/flower/list";
     }
 
 

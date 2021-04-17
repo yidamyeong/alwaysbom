@@ -27,7 +27,7 @@
                 <li class="breadcrumb-item active" aria-current="page">상품 등록</li>
             </c:if>
             <c:if test="${not empty flowerVo}">
-                <li class="breadcrumb-item" onclick="location.href='/admin/flowerList'">상품 조회</li>
+                <li class="breadcrumb-item" onclick="location.href='/admin/flower/list'">상품 조회</li>
                 <li class="breadcrumb-item active" aria-current="page">${flowerVo.name}</li>
             </c:if>
         </ol>
@@ -437,7 +437,7 @@
     /* 폼데이터 전송후 창 이동 */
     function goInsert(frm) {
         if (checkValidation(true)) {
-            frm.action = "/admin/addFlower";
+            frm.action = "/admin/flower/add";
             frm.submit();
         } else {
             return;
@@ -446,7 +446,7 @@
 
     function goUpdate(frm) {
         if (checkValidation(false)) {
-            frm.action = "/admin/updateFlower";
+            frm.action = "/admin/flower/update";
             frm.submit();
         } else {
             return;
