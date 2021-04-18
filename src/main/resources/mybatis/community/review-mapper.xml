@@ -2,36 +2,53 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="review">
-    <select id="allBestReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto">
-        SELECT *
-        FROM (
-        SELECT ROW_NUMBER() over (ORDER BY STAR DESC) as RN, I.*
-        FROM REVIEW I
-        )
-        WHERE RN BETWEEN 1 and 10
+<mapper namespace="REVIEW">
+
+    <!-- (R) 전체 리뷰 보기 -->
+    <select id="findAll" resultType="com.flo.alwaysbom.community.review.vo.ReviewVo">
+        SELECT * FROM REVIEW ORDER BY REG_DATE DESC
     </select>
+
+
+    <!-- (R) 베스트리뷰 전체글 보기 -->
+
+
+
+
+
+    <select id="allBestReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto">
+        SELECT  *
+        FROM    (
+                SELECT  ROW_NUMBER() over (ORDER BY STAR DESC) as RN, I.*
+                FROM    REVIEW I
+                )
+        WHERE   RN BETWEEN 1 and 10
+    </select>
+
 
 
     <select id="allReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="map">
         SELECT *
         FROM REVIEW
         <where>
-            <if test="category == '클래스'">
-                CATEGORY = #{category} AND FCLASS_IDX = #{idx}
-            </if>
+            <if test="category == '정기구독'">
+                CATEGORY = #{category} AND SUBS_IDX = #{idx}
             <if test="category == '꽃다발'">
                 CATEGORY = #{category} AND FLOWER_IDX = #{idx}
+            </if>
+            </if>
+            <if test="category == '클래스'">
+                CATEGORY = #{category} AND FCLASS_IDX = #{idx}
             </if>
             <if test="category == '소품'">
                 CATEGORY = #{category} AND PRODUCT_IDX = #{idx}
             </if>
-            <if test="category == '정기구독'">
-                CATEGORY = #{category} AND SUBS_IDX = #{idx}
-            </if>
         </where>
         ORDER BY REG_DATE DESC
-     <!--   SELECT *
+    </select>
+
+
+<!--   SELECT *
         FROM (
         SELECT ROW_NUMBER() over (ORDER BY STAR DESC) as RN, I.*
         FROM REVIEW I
@@ -51,7 +68,6 @@
         </where>
         )
         WHERE RN BETWEEN 1 and 10-->
-    </select>
     <select id="cateBestReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto" parameterType="string">
         SELECT *
         FROM (

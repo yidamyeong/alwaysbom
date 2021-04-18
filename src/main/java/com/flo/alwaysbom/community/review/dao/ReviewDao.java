@@ -2,6 +2,7 @@ package com.flo.alwaysbom.community.review.dao;
 
 import com.flo.alwaysbom.community.review.dto.ReviewDto;
 import com.flo.alwaysbom.community.review.vo.ReviewLikeVo;
+import com.flo.alwaysbom.community.review.vo.ReviewVo;
 import com.flo.alwaysbom.fclass.vo.OclassVo;
 import com.flo.alwaysbom.member.vo.MemberVO;
 import com.flo.alwaysbom.order.vo.OitemVo;
@@ -17,10 +18,15 @@ import java.util.Map;
 @Repository
 @RequiredArgsConstructor
 public class ReviewDao {
+
     private final SqlSessionTemplate sqlSessionTemplate;
 
+    public List<ReviewVo> findAll() {
+        return sqlSessionTemplate.selectList("REVIEW.findAll");
+    }
+
     public List<ReviewDto> allBestReview() {
-        List<ReviewDto> list = sqlSessionTemplate.selectList("review.allBestReview");
+        List<ReviewDto> list = sqlSessionTemplate.selectList("REVIEW.allBestReview");
         for (ReviewDto vo: list) {
             vo.setRegDate(vo.getRegDate().substring(0,10));
         }
@@ -37,9 +43,9 @@ public class ReviewDao {
         map.put("tab", category);
         map.put("idx", idx);
         if(tab.equals("best")){
-            list = sqlSessionTemplate.selectList("review.cateBestReview", map);
+            list = sqlSessionTemplate.selectList("REVIEW.cateBestReview", map);
         } else if(tab.equals("allList")) {
-            list = sqlSessionTemplate.selectList("review.allReview", map);
+            list = sqlSessionTemplate.selectList("REVIEW.allReview", map);
         }
         for (ReviewDto vo : list) {
             vo.setRegDate(vo.getRegDate().substring(0,10));
@@ -51,7 +57,7 @@ public class ReviewDao {
         if(category.equals("")){
             category = null;
         }
-        List<ReviewDto> list = sqlSessionTemplate.selectList("review.cateBestReview", category);
+        List<ReviewDto> list = sqlSessionTemplate.selectList("REVIEW.cateBestReview", category);
         for (ReviewDto vo : list) {
             vo.setRegDate(vo.getRegDate().substring(0,10));
         }
@@ -59,18 +65,18 @@ public class ReviewDao {
     }
 
     public int oldListCnt() {
-        return sqlSessionTemplate.selectOne("review.oldListCnt");
+        return sqlSessionTemplate.selectOne("REVIEW.oldListCnt");
     }
 
     public int oldCateListCnt(String category) {
         if(category.equals("")){
             category = null;
         }
-        return sqlSessionTemplate.selectOne("review.oldCateListCnt", category);
+        return sqlSessionTemplate.selectOne("REVIEW.oldCateListCnt", category);
     }
 
     public List<ReviewDto> allCateReview(Map<String, String> searchParam) {
-        List<ReviewDto> list = sqlSessionTemplate.selectList("review.allCateReview", searchParam);
+        List<ReviewDto> list = sqlSessionTemplate.selectList("REVIEW.allCateReview", searchParam);
         for (ReviewDto vo : list) {
             vo.setRegDate(vo.getRegDate().substring(0,10));
         }
@@ -78,7 +84,7 @@ public class ReviewDao {
     }
 
     public List<ReviewDto> searchReview(String opt, String search) {
-        List<ReviewDto> list = sqlSessionTemplate.selectList("review.searchReview", search);
+        List<ReviewDto> list = sqlSessionTemplate.selectList("REVIEW.searchReview", search);
         for (ReviewDto vo : list) {
             vo.setRegDate(vo.getRegDate().substring(0,10));
         }
@@ -86,14 +92,14 @@ public class ReviewDao {
     }
 
     public void searchReview(Integer idx, MemberVO member) {
-        ReviewDto dto = sqlSessionTemplate.selectOne("review.findByIdx", idx);
-        sqlSessionTemplate.delete("review.deleteReview", idx);
-        sqlSessionTemplate.update("review.oitemPick", idx);
-        sqlSessionTemplate.update("review.oclassPick", idx);
+        ReviewDto dto = sqlSessionTemplate.selectOne("REVIEW.findByIdx", idx);
+        sqlSessionTemplate.delete("REVIEW.deleteReview", idx);
+        sqlSessionTemplate.update("REVIEW.oitemPick", idx);
+        sqlSessionTemplate.update("REVIEW.oclassPick", idx);
         if(dto.getImage() != null){
-            sqlSessionTemplate.update("review.imageHas", dto.getMemberId());
+            sqlSessionTemplate.update("REVIEW.imageHas", dto.getMemberId());
         }else {
-            sqlSessionTemplate.update("review.imageDontHas", dto.getMemberId());
+            sqlSessionTemplate.update("REVIEW.imageDontHas", dto.getMemberId());
         }
     }
 
