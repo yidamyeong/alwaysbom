@@ -21,9 +21,32 @@ public class ReviewDao {
 
     private final SqlSessionTemplate sqlSessionTemplate;
 
+    /* (R) 모든 리뷰 조회 (시간순 내림차순) */
     public List<ReviewVo> findAll() {
         return sqlSessionTemplate.selectList("REVIEW.findAll");
     }
+
+    /* (R) 전체 베스트 20 리뷰 보기 (좋아요순 내림차순 정렬) */
+    public List<ReviewVo> findBestReviewFromAll() {
+        return sqlSessionTemplate.selectList("REVIEW.findBestReviewFromAll");
+    }
+
+    /* (R) 카테고리별 베스트 10 리뷰 보기 (좋아요순 내림차순 정렬) */
+    public List<ReviewVo> findBestReviewFromCategory(String category) {
+        return sqlSessionTemplate.selectList("REVIEW.findBestReviewFromCategory", category);
+    }
+
+    /* (R) 특정 카테고리의 특정 idx 값에 해당하는 리뷰만 보기 (시간순 내림차순) */
+    public List<ReviewVo> findByCategoryAndIdx(Map<String, String> map) {
+        return sqlSessionTemplate.selectList("REVIEW.findByCategoryAndIdx", map);
+    }
+
+
+
+
+
+
+
 
     public List<ReviewDto> allBestReview() {
         List<ReviewDto> list = sqlSessionTemplate.selectList("REVIEW.allBestReview");

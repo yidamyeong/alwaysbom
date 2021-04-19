@@ -3,6 +3,7 @@ package com.flo.alwaysbom.community.review.service;
 import com.flo.alwaysbom.community.review.dao.ReviewDao;
 import com.flo.alwaysbom.community.review.dto.ReviewDto;
 import com.flo.alwaysbom.community.review.vo.ReviewLikeVo;
+import com.flo.alwaysbom.community.review.vo.ReviewVo;
 import com.flo.alwaysbom.fclass.vo.OclassVo;
 import com.flo.alwaysbom.flower.dao.FlowerDao;
 import com.flo.alwaysbom.member.vo.MemberVO;
@@ -28,6 +29,44 @@ public class ReviewService {
     private final FlowerDao flowerDao;
     private final SubsDao subDao;
     private final ProductDao productDao;
+
+
+    public List<ReviewVo> findAll() {
+        return reviewDao.findAll();
+    }
+
+    public List<ReviewVo> findBestReviewFromAll() {
+        return reviewDao.findBestReviewFromAll();
+    }
+
+    public List<ReviewVo> findBestReviewFromCategory(String category) {
+        switch (category) {
+            case "subs":
+                category = "정기구독";
+                break;
+            case "flower":
+                category = "꽃다발";
+                break;
+            case "fclass":
+                category = "클래스";
+                break;
+            case "product":
+                category = "소품샵";
+                break;
+            default:
+                break;
+        }
+        return reviewDao.findBestReviewFromCategory(category);
+    }
+
+    public List<ReviewVo> findByCategoryAndIdx(Map<String, String> map) {
+        return reviewDao.findByCategoryAndIdx(map);
+    }
+
+
+
+
+
 
     public List<ReviewDto> allBestReview(String memberId) {
         List<ReviewDto> reviews = reviewDao.allBestReview();
