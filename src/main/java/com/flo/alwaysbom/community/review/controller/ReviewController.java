@@ -27,8 +27,22 @@ public class ReviewController {
     private final ReviewService reviewService;
     private final FileHandler fileHandler;
 
+    @GetMapping("/community/review/best")
+    public String getBestReviewsFromAll(Model model) {
+        List<ReviewVo> bestReviewList = reviewService.findBestReviewFromAll();
+        model.addAttribute("bestReviewList", bestReviewList);
+        return null;
+    }
+
+    @GetMapping("/community/review/all/{category}")
+    public String findGeneralReviewsByCategory(@PathVariable String category, Model model) {
+        List<ReviewVo> categoryList = reviewService.findByCategory(category);
+        model.addAttribute("categoryList", categoryList);
+        return null;
+    }
+
     @GetMapping("/community/review/best/{category}")
-    public String getBestReviewFromCategory(@PathVariable String category, Model model) {
+    public String getBestReviewsFromCategory(@PathVariable String category, Model model) {
         List<ReviewVo> bestReviewFromCategoryList = reviewService.findBestReviewFromCategory(category);
         model.addAttribute("bestReviewFromCategoryList", bestReviewFromCategoryList);
         return null;

@@ -36,6 +36,11 @@ public class ReviewDao {
         return sqlSessionTemplate.selectList("REVIEW.findBestReviewFromCategory", category);
     }
 
+    /* (R) 카테고리별 리뷰 보기 (시간순 내림차순) */
+    public List<ReviewVo> findByCategory(String category) {
+        return sqlSessionTemplate.selectList("REVIEW.findByCategory", category);
+    }
+
     /* (R) 특정 카테고리의 특정 idx 값에 해당하는 리뷰만 보기 (시간순 내림차순) */
     public List<ReviewVo> findByCategoryAndIdx(Map<String, String> map) {
         return sqlSessionTemplate.selectList("REVIEW.findByCategoryAndIdx", map);

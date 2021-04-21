@@ -29,6 +29,14 @@
         WHERE   RN BETWEEN 1 AND 10
     </select>
 
+    <!-- (R) 카테고리별 리뷰 보기 (시간순 내림차순) -->
+    <select id="findByCategory" resultType="com.flo.alwaysbom.community.review.vo.ReviewVo" parameterType="string">
+        SELECT *
+        FROM REVIEW
+        WHERE CATEGORY = #{category}
+        ORDER BY REG_DATE DESC
+    </select>
+
     <!-- (R) 특정 카테고리의 특정 idx 값에 해당하는 리뷰만 보기 (시간순 내림차순) -->
     <select id="findByCategoryAndIdx" resultType="com.flo.alwaysbom.community.review.vo.ReviewVo" parameterType="map">
         SELECT  *
@@ -49,6 +57,14 @@
         </where>
         ORDER BY REG_DATE DESC
     </select>
+
+
+
+
+
+
+
+
 
     <!--  -->
     <select id="allBestReview" resultType="com.flo.alwaysbom.community.review.dto.ReviewDto">

@@ -30,16 +30,8 @@ public class ReviewService {
     private final SubsDao subDao;
     private final ProductDao productDao;
 
-
-    public List<ReviewVo> findAll() {
-        return reviewDao.findAll();
-    }
-
-    public List<ReviewVo> findBestReviewFromAll() {
-        return reviewDao.findBestReviewFromAll();
-    }
-
-    public List<ReviewVo> findBestReviewFromCategory(String category) {
+    // 영문 category 를 한글로 전환
+    private String getCateString(String category) {
         switch (category) {
             case "subs":
                 category = "정기구독";
@@ -56,7 +48,25 @@ public class ReviewService {
             default:
                 break;
         }
+        return category;
+    }
+
+    public List<ReviewVo> findAll() {
+        return reviewDao.findAll();
+    }
+
+    public List<ReviewVo> findBestReviewFromAll() {
+        return reviewDao.findBestReviewFromAll();
+    }
+
+    public List<ReviewVo> findBestReviewFromCategory(String category) {
+        category = getCateString(category);
         return reviewDao.findBestReviewFromCategory(category);
+    }
+
+    public List<ReviewVo> findByCategory(String category) {
+        category = getCateString(category);
+        return reviewDao.findByCategory(category);
     }
 
     public List<ReviewVo> findByCategoryAndIdx(Map<String, String> map) {
