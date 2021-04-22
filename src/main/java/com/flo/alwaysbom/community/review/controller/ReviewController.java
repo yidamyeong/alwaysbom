@@ -55,7 +55,6 @@ public class ReviewController {
 
 
 
-
     //////////////////////////////////////////////// 윗부분이 담영 리팩토링
 
     @GetMapping("/community/goReview")
