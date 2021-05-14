@@ -35,8 +35,8 @@
     </bean>
 
     <!-- 둘 중 사용할 하나만 활성화 처리하면 됩니다 -->
-    <bean id="fileHandler" class="com.flo.alwaysbom.util.CloudFileHandler"/>
-<!--    <bean id="fileHandler" class="com.flo.alwaysbom.util.LocalFileHandler"/>-->
+    <!--    <bean id="fileHandler" class="com.flo.alwaysbom.util.CloudFileHandler"/>-->
+    <bean id="fileHandler" class="com.flo.alwaysbom.util.LocalFileHandler"/>
 
     <bean id="mail" class="com.flo.alwaysbom.util.MailSend"/>
 </beans>
